@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.common.signup
 
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,11 +38,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
@@ -67,10 +70,11 @@ fun SignUpScreen(navController: NavController){
     var selectedRole by remember {
         mutableStateOf("")
     }
+    val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) } // Dropdown state
 
     val roles = listOf("Buyer", "Seller")
-
+  val viewModel:SignUpViewModel = hiltViewModel()
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(0.dp)
@@ -94,7 +98,8 @@ fun SignUpScreen(navController: NavController){
             value = name,
             onValueChange = { name= it },
             label = { Text("Username") },
-            modifier = Modifier.height(60.dp)
+            modifier = Modifier
+                .height(60.dp)
                 .width(350.dp) // Adjust the width as needed
                 .background(Color.White, shape = RoundedCornerShape(32.dp)),
             colors = TextFieldDefaults.textFieldColors(
@@ -232,11 +237,18 @@ fun SignUpScreen(navController: NavController){
         Button(
             onClick = {
 
-
-
+                viewModel.signUp(email, password,
+                    onSuccess = {
+                        // Handle successful signup (e.g., navigate to another screen)
+                        Toast.makeText(context,"SIGN UP FAILED",Toast.LENGTH_LONG).show()
+                    },
+                    onError = {
+                Toast.makeText(context,"SIGN UP FAILED",Toast.LENGTH_LONG).show()
+                    }
+                )
             },
-            modifier = Modifier .
-            width(300.dp)// //
+            modifier = Modifier
+                .width(300.dp)// //
                 .padding(16.dp),
             enabled = name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirm.isNotEmpty() && password==confirm && selectedRole.isNotEmpty(),
             colors = ButtonDefaults.buttonColors(

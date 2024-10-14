@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
     id("org.jetbrains.kotlin.kapt")
     id("com.google.dagger.hilt.android")
+
 }
 
 android {
@@ -54,7 +55,13 @@ android {
 
 dependencies {
 
+
+
+    implementation ("com.google.accompanist:accompanist-pager:0.30.1")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.30.1")
+
     implementation ("androidx.room:room-runtime:2.6.1")
+    implementation(libs.firebase.storage.ktx)
     kapt ("androidx.room:room-compiler:2.6.1")
     implementation ("androidx.room:room-ktx:2.6.1")
     implementation("com.google.dagger:hilt-android:2.51")
