@@ -123,7 +123,8 @@ fun SignInScreen(navController: NavController){
             onClick = {
                 viewModel.signIn(email, password,
                     onSuccess = {
-                        Toast.makeText(context,"SIGN IN SUCCESS",Toast.LENGTH_LONG).show()
+                        Toast.makeText(context,"SIGN IN SUCCESS",Toast.LENGTH_SHORT).show()
+                        navController.navigate("AddSeller")
                     },
                     onError = {
                         Toast.makeText(context,"SIGN IN FAILED",Toast.LENGTH_LONG).show()
@@ -148,7 +149,7 @@ fun SignInScreen(navController: NavController){
             Text(" Sign Up",
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.clickable {
-                    navController.navigate("signup")
+                    navController.navigate("SignUp")
                 },
                 fontSize = 18.sp,
                 color = Color.Blue)
@@ -160,5 +161,5 @@ fun SignInScreen(navController: NavController){
 @Composable
 fun PreviewSignInScreen() {
     val navController= rememberNavController()
-    SignInScreen(navController)
+   // SignInScreen(navController)
 }

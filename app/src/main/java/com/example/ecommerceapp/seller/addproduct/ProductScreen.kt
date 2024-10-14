@@ -61,8 +61,7 @@ fun AddProductScreen(){
     }
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val sellerId= auth.currentUser?.uid
-    val foodItems = listOf(
-        FoodItems(
+    val foodItems = FoodItems(
             productId = "", // This will be generated in the `addProductToSeller` method
             name = name,
             description = description,
@@ -71,7 +70,6 @@ fun AddProductScreen(){
             type = type,
             ingredients = ingredients
         )
-    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -130,7 +128,7 @@ Spacer(modifier = Modifier.height(8.dp))
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-           // viewModel.addSeller(sellerId="", foodItems = foodItems , onError = {}, onSuccess = {})
+
         },
             modifier=Modifier.fillMaxWidth()) {
 Text("Add Product")

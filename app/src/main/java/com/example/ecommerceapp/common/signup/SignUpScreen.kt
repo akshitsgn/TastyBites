@@ -74,7 +74,9 @@ fun SignUpScreen(navController: NavController){
     var expanded by remember { mutableStateOf(false) } // Dropdown state
 
     val roles = listOf("Buyer", "Seller")
-  val viewModel:SignUpViewModel = hiltViewModel()
+
+    val viewModel:SignUpViewModel = hiltViewModel()
+
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(0.dp)
@@ -239,8 +241,8 @@ fun SignUpScreen(navController: NavController){
 
                 viewModel.signUp(email, password,
                     onSuccess = {
-                        // Handle successful signup (e.g., navigate to another screen)
-                        Toast.makeText(context,"SIGN UP FAILED",Toast.LENGTH_LONG).show()
+                        navController.navigate("AddProduct")
+                        Toast.makeText(context,"SIGN UP SUCCESS",Toast.LENGTH_SHORT).show()
                     },
                     onError = {
                 Toast.makeText(context,"SIGN UP FAILED",Toast.LENGTH_LONG).show()
@@ -263,7 +265,9 @@ fun SignUpScreen(navController: NavController){
             Text("Already have an account?",
                 fontSize = 18.sp,)
             Text(" Log In",
-                modifier=Modifier.clickable {navController.navigate("signin")  },
+                modifier=Modifier.clickable {
+                    navController.navigate("SignIn")
+                },
                 fontWeight = FontWeight.Medium,
                 fontSize = 18.sp,
                 color = Color(0xFF7851A9)
@@ -276,5 +280,5 @@ fun SignUpScreen(navController: NavController){
 @Composable
 fun PreviewSignInScreen() {
     val navController= rememberNavController()
-    SignUpScreen(navController = navController)
+    //SignUpScreen(navController = navController)
 }
