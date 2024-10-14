@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.seller.addproduct
 
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -31,7 +33,7 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun AddProductScreen(){
     val context= LocalContext.current
-    val viewModel: AddSellerViewModel = hiltViewModel()
+    val viewModel: AddFoodViewModel = hiltViewModel()
     var name by remember {
         mutableStateOf("")
     }
@@ -59,8 +61,9 @@ fun AddProductScreen(){
     var imageUrl by remember {
         mutableStateOf("")
     }
-    val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    val sellerId= auth.currentUser?.uid
+        var check by remember {
+            mutableStateOf(true)
+        }
     val foodItems = FoodItems(
             productId = "", // This will be generated in the `addProductToSeller` method
             name = name,
@@ -128,9 +131,25 @@ Spacer(modifier = Modifier.height(8.dp))
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
+            check= false
+       viewModel.addProduct(foodItems, onSuccess = {
+           Toast.makeText(context,"Added product successfully",Toast.LENGTH_SHORT).show()
+           name=""
+           description=""
+           ingredients=""
+           type=""
+           price=""
+           discount=""
+           check = true
 
+       }, onError = {
+           Toast.makeText(context,"error adding product",Toast.LENGTH_SHORT).show()
+       })
         },
-            modifier=Modifier.fillMaxWidth()) {
+            modifier=Modifier.fillMaxWidth(),
+            enabled = name!="" && description!="" && type!="" && ingredients!="" && check
+
+        ) {
 Text("Add Product")
         }
     }
