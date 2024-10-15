@@ -61,9 +61,14 @@ fun AddProductScreen(){
     var imageUrl by remember {
         mutableStateOf("")
     }
+
         var check by remember {
             mutableStateOf(true)
         }
+
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val sellerId= auth.currentUser?.uid
+
     val foodItems = FoodItems(
             productId = "", // This will be generated in the `addProductToSeller` method
             name = name,
@@ -131,6 +136,7 @@ Spacer(modifier = Modifier.height(8.dp))
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
+
             check= false
        viewModel.addProduct(foodItems, onSuccess = {
            Toast.makeText(context,"Added product successfully",Toast.LENGTH_SHORT).show()
@@ -145,6 +151,7 @@ Spacer(modifier = Modifier.height(8.dp))
        }, onError = {
            Toast.makeText(context,"error adding product",Toast.LENGTH_SHORT).show()
        })
+
         },
             modifier=Modifier.fillMaxWidth(),
             enabled = name!="" && description!="" && type!="" && ingredients!="" && check

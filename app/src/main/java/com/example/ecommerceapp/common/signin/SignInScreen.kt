@@ -124,7 +124,11 @@ fun SignInScreen(navController: NavController){
                 viewModel.signIn(email, password,
                     onSuccess = {
                         Toast.makeText(context,"SIGN IN SUCCESS",Toast.LENGTH_SHORT).show()
+
                         navController.navigate("AddProduct")
+
+                        navController.navigate("AddSeller")
+
                     },
                     onError = {
                         Toast.makeText(context,"SIGN IN FAILED",Toast.LENGTH_LONG).show()

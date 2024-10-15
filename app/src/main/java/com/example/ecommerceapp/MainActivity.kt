@@ -30,6 +30,11 @@ class MainActivity : ComponentActivity() {
             //AddSellerScreen()
            // SignUpScreen()
               //  NavScreen()
+
+                // AddProductScreen()
+            //AddSellerScreen()
+           // SignUpScreen()
+                NavScreen()
             }
         }
     }
