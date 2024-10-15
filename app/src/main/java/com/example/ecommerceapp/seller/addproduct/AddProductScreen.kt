@@ -25,13 +25,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.ecommerceapp.seller.addseller.AddSellerViewModel
 import com.example.ecommerceapp.common.models.FoodItems
 import com.example.ecommerceapp.common.models.Seller
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun AddProductScreen(){
+fun AddProductScreen(navController: NavController){
     val context= LocalContext.current
     val viewModel: AddFoodViewModel = hiltViewModel()
     var name by remember {
@@ -52,10 +54,10 @@ fun AddProductScreen(){
     var discount by remember {
         mutableStateOf("")
     }
-    var price1 by remember {
+    val price1 by remember {
         mutableStateOf(0)
     }
-    var discount1 by remember {
+    val discount1 by remember {
         mutableStateOf(0)
     }
     var imageUrl by remember {
@@ -92,7 +94,7 @@ fun AddProductScreen(){
             label = { Text("Product Name") },
             modifier = Modifier.fillMaxWidth()
         )
-Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         // Type TextField
         TextField(
             value = type,
@@ -159,6 +161,12 @@ Spacer(modifier = Modifier.height(8.dp))
         ) {
 Text("Add Product")
         }
+        Spacer(modifier = Modifier.height(12.dp))
+        Button(onClick = {
+            navController.navigate("productList")
+        },modifier=Modifier.fillMaxWidth()) {
+          Text("SEE PRODUCT")
+        }
     }
 }
 
@@ -166,5 +174,6 @@ Text("Add Product")
 @Preview(showBackground = true)
 @Composable
 fun Check(){
-    AddProductScreen()
+    val navController = rememberNavController()
+    AddProductScreen(navController)
 }

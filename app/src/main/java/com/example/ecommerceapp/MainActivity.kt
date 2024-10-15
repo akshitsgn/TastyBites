@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EcommerceAppTheme {
-                 AddProductScreen()
+                 //AddProductScreen(navController = )
             //AddSellerScreen()
            // SignUpScreen()
               //  NavScreen()

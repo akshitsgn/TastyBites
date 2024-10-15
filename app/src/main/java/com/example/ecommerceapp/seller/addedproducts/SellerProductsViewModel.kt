@@ -1,4 +1,5 @@
-package com.example.ecommerceapp.seller.addproduct
+package com.example.ecommerceapp.seller.addedproducts
+
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,19 +15,25 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AddFoodViewModel @Inject constructor(): ViewModel(){
+class SellerProductsViewModel @Inject constructor() : ViewModel() {
     private val dbReference: DatabaseReference = FirebaseDatabase.getInstance().getReference()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-private val sellerId = auth.currentUser?.uid
+    private val sellerId = auth.currentUser?.uid
+
     private val _productList = MutableLiveData<List<FoodItems>>()
     val productList: LiveData<List<FoodItems>> = _productList
 
-    fun listenToProductChanges() {
-        val currentUser = auth.currentUser
-        val sellerId = currentUser?.uid  // Get the current user's UID
+    private var productListener: ValueEventListener? = null
 
-        if (sellerId != null) {
-            dbReference.child(sellerId).child("products").addValueEventListener(object :
+
+    init{
+        ListeningToProducts()
+    }
+
+    // Function to start listening for product changes
+    fun ListeningToProducts() {
+        if (sellerId != null && productListener == null) {
+            productListener = dbReference.child("products").child(sellerId).addValueEventListener(object :
                 ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val productList = mutableListOf<FoodItems>()
@@ -36,32 +43,13 @@ private val sellerId = auth.currentUser?.uid
                             productList.add(product)
                         }
                     }
-                    _productList.value = productList  // Update LiveData
+                    _productList.value = productList  // Update LiveData with new product list
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    // Handle error if needed
+
                 }
             })
-        }
-    }
-
-    fun addProduct(product: FoodItems, onSuccess:()-> Unit, onError:()-> Unit) {
-          // Get the authenticated user's UID
-        if (sellerId != null) {
-            val productId = dbReference.child("products").child(sellerId).push().key
-            val updatedProduct = product.copy(productId = productId)
-            if (productId != null) {
-                dbReference.child("products").child(sellerId).child(productId).setValue(updatedProduct)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            onSuccess()
-                        } else {
-                            onError()
-                            // Handle failure
-                        }
-                    }
-            }
         }
     }
 }
