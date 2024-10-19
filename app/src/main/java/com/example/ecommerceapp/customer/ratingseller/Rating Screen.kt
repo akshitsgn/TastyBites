@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun RatingScreen(){
-    var context = LocalContext.current
+    val context = LocalContext.current
     val viewModel: RatingViewModel= hiltViewModel()
     var rating by remember {
     mutableStateOf("")
