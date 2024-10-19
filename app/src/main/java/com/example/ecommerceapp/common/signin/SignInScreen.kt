@@ -100,7 +100,7 @@ fun SignInScreen(navController: NavController) {
 
             Text(
                 "Login",
-                modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 15.dp),
+                modifier = Modifier,
                 fontSize = 79.sp,
                 fontFamily = FontFamily.Cursive,
                 fontWeight = FontWeight.Medium,
@@ -181,7 +181,7 @@ fun SignInScreen(navController: NavController) {
                     .padding(16.dp),
                 enabled = email.isNotEmpty() && password.isNotEmpty(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF6A0D91).copy(alpha= 0.55f), // Set button color
+                    containerColor = Color(0xFF0d98ba).copy(alpha= 0.65f), // Set button color
                     contentColor = Color.White // Set text color
                 ),
                 shape = RoundedCornerShape(12.dp) // Ensure button has rounded corners
@@ -203,7 +203,7 @@ fun SignInScreen(navController: NavController) {
                         navController.navigate("SignUp")
                     },
                     fontSize = 20.sp,
-                    color = Color(0xFF239ED0)
+                    color = Color(0xFF0d98ba)
                 )
             }
         }
