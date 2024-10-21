@@ -28,11 +28,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EcommerceAppTheme {
-                val navController = rememberNavController()
+
                 NavScreen()
-               // RatingScreen()
-                //SignUpScreen(navController = navController)
-               // SignInScreen(navController = navController)
+
             }
         }
     }
