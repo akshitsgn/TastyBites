@@ -9,7 +9,7 @@ data class Seller(
     val description: String?="",
     val overallRating: List<Int> ?= emptyList(),
     val complaints: List<String>? = emptyList(),
-    val imageUri: String?="",
+    val restaurantImage: String?="",
     val foodItems: List<FoodItems> = emptyList(),
     val topDishesImageUri: List<String> ? = emptyList(),
     val restaurantMenu : String? =""

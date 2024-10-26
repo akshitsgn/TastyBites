@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 
 import androidx.compose.material.icons.filled.Person
@@ -31,7 +33,9 @@ import androidx.compose.material3.Text
 
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -55,6 +60,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.common.signup.SignUpViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,16 +76,39 @@ fun SignInScreen(navController: NavController) {
     var errorMessage by remember { mutableStateOf("") }
     val viewModel: SignInViewModel = hiltViewModel()
 
+    val imageResources = listOf(
+        R.drawable.food,
+        R.drawable.food1,
+        R.drawable.food2,
+        R.drawable.food3, // Replace with your image resources
+    )
+
+    // State to hold the current image index
+    var currentImageIndex by remember { mutableIntStateOf(0) }
+
+    // LaunchedEffect to change the image index every few seconds
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(7000) // Change image every 3 seconds
+            currentImageIndex = (currentImageIndex + 1) % imageResources.size
+        }
+    }
+
+    // Background image to match the food delivery theme
+    val backgroundImage: Painter = painterResource(id = imageResources[currentImageIndex])
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+
     ) {
         // Background image to match the food delivery theme
         Image(
-            painter = painterResource(id = R.drawable.food), // Replace with your background image
+            painter = backgroundImage, // Replace with your background image
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .alpha(0.8f)
         )
 
@@ -91,6 +120,7 @@ fun SignInScreen(navController: NavController) {
 
         Column(
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -127,7 +157,7 @@ fun SignInScreen(navController: NavController) {
                     ) },
                 modifier = Modifier
                     .fillMaxWidth()// Adjust the width as needed
-                    .background(Color.White.copy(alpha=0.2f), shape = RoundedCornerShape(22.dp)),
+                    .background(Color.White.copy(alpha = 0.2f), shape = RoundedCornerShape(22.dp)),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent, // Ensure the background color is applied from Modifier.background
                     focusedIndicatorColor = Color.Transparent,
@@ -154,7 +184,7 @@ fun SignInScreen(navController: NavController) {
                         },
                 modifier = Modifier
                     .fillMaxWidth() // Adjust the width as needed
-                    .background(Color.White.copy(alpha=0.2f), shape = RoundedCornerShape(22.dp)),
+                    .background(Color.White.copy(alpha = 0.2f), shape = RoundedCornerShape(22.dp)),
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent, // Ensure the background color is applied from Modifier.background
                     focusedIndicatorColor = Color.Transparent,

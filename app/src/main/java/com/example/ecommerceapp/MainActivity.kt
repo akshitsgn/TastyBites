@@ -28,7 +28,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EcommerceAppTheme {
-
+                val navController = rememberNavController()
+//SignInScreen(navController = navController)
                 NavScreen()
 
             }
