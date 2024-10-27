@@ -124,7 +124,7 @@ fun SignUpScreen(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.5f)) // Adjust alpha for desired transparency
+                .background(Color.Black.copy(alpha = 0.6f)) // Adjust alpha for desired transparency
         )
 
         Column(

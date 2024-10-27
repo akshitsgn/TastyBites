@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -22,18 +24,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.ecommerceapp.R
 
 @Composable
-fun OnboardingSellerScreen(){
+fun OnboardingSellerScreen(navController: NavController){
 
     val backgroundImage: Painter = painterResource(id = R.drawable.man) // Replace with your background image
     Box(
@@ -53,7 +58,7 @@ fun OnboardingSellerScreen(){
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.5f))
+                .background(Color.Black.copy(alpha = 0.7f))
         )
 
         Column(
@@ -75,6 +80,7 @@ fun OnboardingSellerScreen(){
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Fast-track your growth with Tasty-Bites Where flavor meets opportunity!",
+                //textAlign = TextAlign.Center,
                 color = Color(0xFFFFA726),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium
@@ -96,11 +102,13 @@ fun OnboardingSellerScreen(){
                         fontSize = 14.sp
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-
+                    Divider(modifier = Modifier.fillMaxWidth(),
+                        color = Color.White)
+                    Spacer(modifier = Modifier.height(8.dp))
                     val items = listOf(
                         "PAN Number",
                         "GSTIN Number",
-                        "Bank Details (IFSC and Account Number)",
+                        "Bank Details ",
                         "FSSAI Registration Number",
                         "Your Restaurant Menu"
                     )
@@ -111,7 +119,7 @@ fun OnboardingSellerScreen(){
                                 painter = painterResource(id = R.drawable.ic_launcher_background), // Replace with a bullet icon
                                 contentDescription = null,
                                 tint = Color(0xFFFFA726),
-                                modifier = Modifier.size(8.dp)
+                                modifier = Modifier.size(8.dp).clip(CircleShape)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(text = item, color = Color.White, fontSize = 14.sp)
@@ -124,7 +132,9 @@ fun OnboardingSellerScreen(){
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
-                onClick = { /* Handle click */ },
+                onClick = {
+                    navController.navigate("AddSeller")
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726).copy(alpha = 0.6f)),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -155,8 +165,9 @@ fun OnboardingSellerScreen(){
 
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun check1(){
-    OnboardingSellerScreen()
+   // OnboardingSellerScreen()
 }

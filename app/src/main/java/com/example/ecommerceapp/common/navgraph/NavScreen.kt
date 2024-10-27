@@ -9,6 +9,8 @@ import com.example.ecommerceapp.common.signup.SignUpScreen
 import com.example.ecommerceapp.seller.addedproducts.ProductsListScreen
 import com.example.ecommerceapp.seller.addproduct.AddProductScreen
 import com.example.ecommerceapp.seller.addseller.AddSellerScreen
+import com.example.ecommerceapp.seller.addseller.OnboardingScreen
+import com.example.ecommerceapp.seller.addseller.OnboardingSellerScreen
 
 @Composable
 fun NavScreen(){
@@ -29,6 +31,12 @@ fun NavScreen(){
         }
         composable("AddSeller"){
             AddSellerScreen()
+        }
+        composable("onBoardingSeller"){
+            OnboardingSellerScreen(navController)
+        }
+        composable("OnBoardingStepper"){
+            OnboardingScreen(navController = navController)
         }
 
     }
