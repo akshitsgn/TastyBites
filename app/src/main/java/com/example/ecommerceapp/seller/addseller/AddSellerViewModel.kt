@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
@@ -26,9 +27,13 @@ class AddSellerViewModel @Inject constructor() : ViewModel() {
     private val _users = MutableStateFlow<List<Seller>>(emptyList())
     val users = _users.asStateFlow()
     private val currentUser = FirebaseAuth.getInstance().currentUser
-
+    private val _uniqueSeller = MutableStateFlow<Seller?>(null)
+    val uniqueSeller: StateFlow<Seller?> = _uniqueSeller
     init {
         listenToUserChanges()
+        currentUser?.uid?.let { sellerId ->
+            getSellerById(sellerId, onError = {}, onSuccess = {})
+        }
     }
 
     private fun listenToUserChanges() {
@@ -61,5 +66,18 @@ class AddSellerViewModel @Inject constructor() : ViewModel() {
             .addOnFailureListener {
                 onError(it.message ?: "Unknown error occurred")
             }
+    }
+
+    fun getSellerById(sellerId: String, onSuccess: (Seller?) -> Unit, onError: (String)-> Unit) {    firebaseDatabase.getReference("seller").child(sellerId)
+        .addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val seller = snapshot.getValue(Seller::class.java)
+                _uniqueSeller.value = seller
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("AddSellerViewModel", "Failed to listen for seller changes: ${error.message}")
+            }
+        })
     }
 }

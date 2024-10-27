@@ -13,8 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -63,6 +65,7 @@ fun OnboardingSellerScreen(navController: NavController){
 
         Column(
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .fillMaxSize()
                 .padding(16.dp)
                 .padding(top = 32.dp),
@@ -95,7 +98,8 @@ fun OnboardingSellerScreen(navController: NavController){
                     .background(Color.White.copy(alpha = 0.1f), RoundedCornerShape(12.dp))
                     .padding(16.dp)
             ) {
-                Column {
+                Column(
+                ) {
                     Text(
                         text = "For an easy form filling process, you can keep the following handy.",
                         color = Color.White,
@@ -119,7 +123,9 @@ fun OnboardingSellerScreen(navController: NavController){
                                 painter = painterResource(id = R.drawable.ic_launcher_background), // Replace with a bullet icon
                                 contentDescription = null,
                                 tint = Color(0xFFFFA726),
-                                modifier = Modifier.size(8.dp).clip(CircleShape)
+                                modifier = Modifier
+                                    .size(8.dp)
+                                    .clip(CircleShape)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(text = item, color = Color.White, fontSize = 14.sp)

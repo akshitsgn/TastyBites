@@ -21,11 +21,18 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -40,13 +47,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.ecommerceapp.R
+import com.example.ecommerceapp.common.models.Seller
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun OnboardingScreen(navController: NavController) {
+    val viewModel: AddSellerViewModel = hiltViewModel()
+    val uniqueSeller by viewModel.uniqueSeller.collectAsState()
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
 
@@ -56,6 +69,17 @@ fun OnboardingScreen(navController: NavController) {
              .alpha(0.8f),
          contentScale = ContentScale.Crop
          )
+        if(uniqueSeller==null){
+            Box(modifier = Modifier.fillMaxSize().
+            background(color = Color.White.copy(alpha=0.8f))
+            ){
+                CircularProgressIndicator(modifier=Modifier.
+                align(Alignment.Center),
+                    color=Color.Black.copy(0.9f)
+                )
+            }
+        }
+        
 
         Box(modifier = Modifier
             .fillMaxSize()
@@ -94,7 +118,7 @@ fun OnboardingScreen(navController: NavController) {
 
             // Stepper
             OnboardingStepper(
-                currentStep = 1,
+                currentStep = uniqueSeller?.currentStep ?: 1,
                 steps = listOf(
                     "Restaurant Information" to "Location, Owner details, Open & Close hrs.",
                     "Restaurant Documents" to "Bank details, FSSAI Licence , PAN card.",
@@ -116,7 +140,7 @@ fun OnboardingStepper(
     navController: NavController,
     steps: List<Pair<String, String>>
 ) {
-    Column {
+    Column() {
         steps.forEachIndexed { index, step ->
             StepItem(
                 stepNumber = index + 1,
@@ -152,6 +176,8 @@ fun StepItem(
     isActive: Boolean,
     isCompleted: Boolean
 ) {
+    val viewModel: AddSellerViewModel = hiltViewModel()
+    val uniqueSeller by viewModel.uniqueSeller.collectAsState()
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -210,6 +236,7 @@ fun StepItem(
                       }
 
                     },
+                    enabled = uniqueSeller!=null,
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726)),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.padding(top = 8.dp)

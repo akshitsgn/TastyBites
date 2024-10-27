@@ -20,6 +20,8 @@ import com.example.ecommerceapp.seller.addseller.AddSellerScreen
 import com.example.ecommerceapp.seller.addproduct.AddProductScreen
 import com.example.ecommerceapp.seller.addseller.OnboardingScreen
 import com.example.ecommerceapp.seller.addseller.OnboardingSellerScreen
+import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen1
+import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen2
 import com.example.ecommerceapp.ui.theme.EcommerceAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +38,7 @@ class MainActivity : ComponentActivity() {
                 // AddSellerScreen()
                  //OnboardingScreen(navController)
              //  OnboardingSellerScreen(navController = navController)
+              RestaurantDetailsScreen2(navController)
             }
         }
     }

@@ -77,7 +77,7 @@ fun AddSellerScreen(){
     }
 
     val seller= Seller(
-            name = name,
+            ownerName = name,
             address = address,
             description = description,
             restaurantImage = restaurantImage?.toString()?:"",
