@@ -40,7 +40,7 @@ import com.example.ecommerceapp.R
 @Composable
 fun OnboardingSellerScreen(navController: NavController){
 
-    val backgroundImage: Painter = painterResource(id = R.drawable.man) // Replace with your background image
+    val backgroundImage: Painter = painterResource(id = R.drawable.food1) // Replace with your background image
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -133,7 +133,7 @@ fun OnboardingSellerScreen(navController: NavController){
 
             Button(
                 onClick = {
-                    navController.navigate("AddSeller")
+                    navController.navigate("OnBoardingStepper")
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726).copy(alpha = 0.6f)),
                 modifier = Modifier

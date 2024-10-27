@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.seller.addseller
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -195,17 +196,17 @@ fun StepItem(
             if (isActive) {
                 Button(
                     onClick = {
-                      if(currentStep==1){
-
+                       if(currentStep==1){
+                           navController.navigate("RestaurantDetails1")
                       }
                         else if(currentStep==2){
-
+                           Log.d("2",stepNumber.toString())
                       }
                         else if(currentStep==3){
-
+                          Log.d("3",stepNumber.toString())
                       }
                         else{
-
+                          Log.d("4",stepNumber.toString())
                       }
 
                     },

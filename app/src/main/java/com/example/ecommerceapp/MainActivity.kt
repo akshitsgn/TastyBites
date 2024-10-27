@@ -32,9 +32,9 @@ class MainActivity : ComponentActivity() {
             EcommerceAppTheme {
                 val navController = rememberNavController()
              // SignUpScreen(navController = navController)
-               // NavScreen()
+                NavScreen()
                 // AddSellerScreen()
-                 OnboardingScreen(navController)
+                 //OnboardingScreen(navController)
              //  OnboardingSellerScreen(navController = navController)
             }
         }
