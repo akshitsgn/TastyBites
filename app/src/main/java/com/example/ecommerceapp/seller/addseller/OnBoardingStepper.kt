@@ -226,7 +226,7 @@ fun StepItem(
                            navController.navigate("RestaurantDetails1")
                       }
                         else if(currentStep==2){
-                           Log.d("2",stepNumber.toString())
+                           navController.navigate("RestaurantDetails2")
                       }
                         else if(currentStep==3){
                           Log.d("3",stepNumber.toString())

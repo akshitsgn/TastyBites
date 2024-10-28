@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             EcommerceAppTheme {
                 val navController = rememberNavController()
-                NavScreen()
+               // NavScreen()
               RestaurantDetailsScreen2(navController)
             }
         }

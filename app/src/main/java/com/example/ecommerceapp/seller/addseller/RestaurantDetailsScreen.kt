@@ -80,7 +80,7 @@ fun RestaurantDetailsScreen1(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            //.padding(16.dp)
             .background(Color(0xFFF6F6F6)) // Light gray background
     ) {
         Row(
@@ -109,11 +109,12 @@ fun RestaurantDetailsScreen1(navController: NavController) {
         // Basic Details Section
         Card(
             shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().background(Color(0xFFF6F6F6)),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(
                 modifier = Modifier
+                    .background(Color(0xFFF6F6F6))
                     .padding(16.dp)
                     .verticalScroll(rememberScrollState())
             ) {
@@ -153,7 +154,7 @@ fun RestaurantDetailsScreen1(navController: NavController) {
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp).background(Color(0xFFF6F6F6))
             ) {
                 Text(
                     text = "Owner Contact Details",
@@ -287,11 +288,11 @@ fun RestaurantDetailsScreen2(navController: NavController) {
         mutableStateOf("")
     }
     val seller= Seller(
-        GSTIN = gSTINNumber.toInt(),
-        FSSAIRegNumber = fSSAINumber.toInt(),
-        panNumber = pANNumber.toInt(),
-        IFSCNumber = ifsc.toInt(),
-        bankAccountNumber = bankAccountNumber.toInt(),
+        GSTIN = gSTINNumber,
+        FSSAIRegNumber = fSSAINumber,
+        panNumber = pANNumber,
+        IFSCNumber = ifsc,
+        bankAccountNumber = bankAccountNumber,
         currentStep = currentStep
     )
     Column(
@@ -420,7 +421,7 @@ fun RestaurantDetailsScreen2(navController: NavController) {
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "You will receive a verification mail on this ID",
+                    text = "You will receive order payments in this accounts",
                     fontSize = 12.sp,
                     color = Color.Gray
                 )
@@ -436,7 +437,7 @@ fun RestaurantDetailsScreen2(navController: NavController) {
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = "Restaurant Location Details",
+                    text = "Owner PAN Details",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.Black
@@ -457,7 +458,7 @@ fun RestaurantDetailsScreen2(navController: NavController) {
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "You will deliver food orders from this location",
+                    text = "Give correct credentials for registering the restaurant",
                     fontSize = 12.sp,
                     color = Color.Gray
                 )
@@ -472,7 +473,8 @@ fun RestaurantDetailsScreen2(navController: NavController) {
                     Toast.makeText(context,"successfully added the user details", Toast.LENGTH_SHORT).show()
                 })
             },
-            colors = ButtonDefaults.buttonColors(Color(0xFFFF5722)), // Orange color
+            enabled= fSSAINumber!="" && gSTINNumber!="" && bankAccountNumber!="" && pANNumber!="" && ifsc!="",
+            colors = if(fSSAINumber!="" || gSTINNumber!="" || bankAccountNumber!="" || pANNumber!="" || ifsc!="")ButtonDefaults.buttonColors(Color(0xFFFF5722)) else ButtonDefaults.buttonColors(Color(0xFFFF5722)), // Orange color
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier
                 .fillMaxWidth()
