@@ -2,14 +2,22 @@
 
 package com.example.ecommerceapp.seller.addseller
 
+import android.Manifest
+import android.net.Uri
+import android.os.Environment
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -20,45 +28,45 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommerceapp.common.models.Seller
 import com.google.firebase.auth.FirebaseAuth
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun RestaurantDetailsScreen1(navController: NavController) {
+    // Owner Personal Details
     val currentUser = FirebaseAuth.getInstance().currentUser
     val viewModel: AddSellerViewModel = hiltViewModel()
     val context = LocalContext.current
-    val currentStep by remember{
-        mutableIntStateOf(2)
-    }
+    val currentStep by remember { mutableIntStateOf(2) }
     val sellerId = currentUser?.uid
     var uniqueSeller by remember { mutableStateOf<Seller?>(null) }
-    var ownername by remember {
-        mutableStateOf("")
-    }
-    var restaurantname by remember {
-        mutableStateOf("")
-    }
-    var emailaddress by remember{
-        mutableStateOf("")
-    }
-    var address by remember {
-        mutableStateOf("")
-    }
-    var description by remember {
-        mutableStateOf("")
-    }
-    val seller= Seller(
+    var ownername by remember { mutableStateOf("") }
+    var restaurantname by remember { mutableStateOf("") }
+    var emailaddress by remember { mutableStateOf("") }
+    var address by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+
+    val seller = Seller(
         ownerName = ownername,
         restaurantName = restaurantname,
         address = address,
@@ -66,26 +74,19 @@ fun RestaurantDetailsScreen1(navController: NavController) {
         description = description,
         currentStep = currentStep
     )
-    if (sellerId!=null){
+
+    if (sellerId != null) {
         viewModel.getSellerById(
             sellerId = sellerId,
-            onSuccess = { seller ->
-                uniqueSeller= seller
-            },
-            onError = {
-
-            }
+            onSuccess = { seller -> uniqueSeller = seller },
+            onError = { /* handle error */ }
         )
     }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            //.padding(16.dp)
-            .background(Color(0xFFF6F6F6)) // Light gray background
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
+
         Row(
             modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues())
-        ){
+        ) {
             IconButton(onClick = {
                 navController.popBackStack("OnBoardingStepper", false)
             }) {
@@ -102,192 +103,203 @@ fun RestaurantDetailsScreen1(navController: NavController) {
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
-
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Basic Details Section
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.fillMaxWidth().background(Color(0xFFF6F6F6)),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .background(Color(0xFFF6F6F6))
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Text(
-                    text = "Basic Details",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                OutlinedTextField(
-                    value = ownername,
-                    onValueChange = { ownername= it },
-                    label = { Text("Owner's Full Name*") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = restaurantname,
-                    onValueChange = { restaurantname = it},
-                    label = { Text("Restaurant Name*") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Owner Contact Details Section
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp).background(Color(0xFFF6F6F6))
-            ) {
-                Text(
-                    text = "Owner Contact Details",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = "To get updates on payments, customer complaints, order acceptance, etc",
-                    fontSize = 14.sp,
-                    color = Color.Gray
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                OutlinedTextField(
-                        value = emailaddress,
-                onValueChange = { emailaddress = it},
-                label = { Text("Email address*") },
-                modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it},
-                    label = { Text("Restaurant description*") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = "You will receive a verification mail on this ID",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Text(
-                    text = "Restaurant Location Details",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                OutlinedTextField(
-                    value = address,
-                    onValueChange = {address = it},
-                    label = { Text("Restaurant Location*") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = "You will deliver food orders from this location",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        Button(
-            onClick = {
-                viewModel.addSeller(seller, onError = {
-                    Toast.makeText(context,"Error adding the user details", Toast.LENGTH_SHORT).show()
-                }, onSuccess = {
-                    Toast.makeText(context,"successfully added the user details", Toast.LENGTH_SHORT).show()
-                })
-            },
-            enabled = ownername!= "" && restaurantname!="" && address!=""&& description!="" && emailaddress!="",
-            colors = ButtonDefaults.buttonColors(Color(0xFFFF5722)), // Orange color
-            shape = RoundedCornerShape(8.dp),
+        LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            Text(
-                text = "Add Details",
-                color = Color.White
-            )
-        }
 
-        // Help Footer
-        Text(
-            text = "If you need any help, check out the FAQs",
-            fontSize = 14.sp,
-            color = Color.Gray,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Basic Details Section
+            item {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Basic Details",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        OutlinedTextField(
+                            value = ownername,
+                            onValueChange = { ownername = it },
+                            label = { Text("Owner's Full Name*") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        OutlinedTextField(
+                            value = restaurantname,
+                            onValueChange = { restaurantname = it },
+                            label = { Text("Restaurant Name*") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+            }
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Owner Contact Details Section
+            item {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Owner Contact Details",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text(
+                            text = "To get updates on payments, customer complaints, order acceptance, etc",
+                            fontSize = 14.sp,
+                            color = Color.Gray
+                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        OutlinedTextField(
+                            value = emailaddress,
+                            onValueChange = { emailaddress = it },
+                            label = { Text("Email address*") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        OutlinedTextField(
+                            value = description,
+                            onValueChange = { description = it },
+                            label = { Text("Restaurant description*") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        Text(
+                            text = "You will receive a verification mail on this ID",
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
+            }
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Restaurant Location Details Section
+            item {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Restaurant Location Details",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black
+                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        OutlinedTextField(
+                            value = address,
+                            onValueChange = { address = it },
+                            label = { Text("Restaurant Location*") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        Text(
+                            text = "You will deliver food orders from this location",
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
+            }
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Button Section
+            item {
+                Button(
+                    onClick = {
+                        viewModel.addSeller(seller, onError = {
+                            Toast.makeText(
+                                context,
+                                "Error adding the user details",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }, onSuccess = { Toast.makeText(context, "Successfully added the user details", Toast.LENGTH_SHORT).show()
+                            ownername=""
+                            restaurantname=""
+                            address=""
+                            emailaddress=""
+                            description=""
+
+                        })
+                    },
+                    enabled = ownername.isNotBlank() && restaurantname.isNotBlank() && address.isNotBlank() && description.isNotBlank() && emailaddress.isNotBlank(),
+                    colors = ButtonDefaults.buttonColors(Color(0xFFFF5722)), // Orange color
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(
+                        text = "Add Details",
+                        color = Color.White
+                    )
+                }
+            }
+
+            // Help Footer
+            item {
+                Text(
+                    text = "If you need any help, check out the FAQs",
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
     }
 }
 
 @Composable
 fun RestaurantDetailsScreen2(navController: NavController) {
+    // owner Bank details
     val currentUser = FirebaseAuth.getInstance().currentUser
     val viewModel: AddSellerViewModel = hiltViewModel()
     val context = LocalContext.current
-    val currentStep by remember{
+    val currentStep by remember {
         mutableIntStateOf(3)
     }
-    var fSSAINumber by remember {
-        mutableStateOf("")
-    }
-    var gSTINNumber by remember {
-        mutableStateOf("")
-    }
-    var pANNumber by remember{
-        mutableStateOf("")
-    }
-    var ifsc by remember {
-        mutableStateOf("")
-    }
-    var bankAccountNumber by remember {
-        mutableStateOf("")
-    }
-    val seller= Seller(
+    var fSSAINumber by remember { mutableStateOf("") }
+    var gSTINNumber by remember { mutableStateOf("") }
+    var pANNumber by remember { mutableStateOf("") }
+    var ifsc by remember { mutableStateOf("") }
+    var bankAccountNumber by remember { mutableStateOf("") }
+
+    val seller = Seller(
         GSTIN = gSTINNumber,
         FSSAIRegNumber = fSSAINumber,
         panNumber = pANNumber,
@@ -295,15 +307,11 @@ fun RestaurantDetailsScreen2(navController: NavController) {
         bankAccountNumber = bankAccountNumber,
         currentStep = currentStep
     )
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .background(Color(0xFFF6F6F6)) // Light gray background
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
+
         Row(
             modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues())
-        ){
+        ) {
             IconButton(onClick = {
                 navController.popBackStack("OnBoardingStepper", false)
             }) {
@@ -322,179 +330,397 @@ fun RestaurantDetailsScreen2(navController: NavController) {
         }
 
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Basic Details Section
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Text(
-                    text = "Restaurant Documents",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                OutlinedTextField(
-                    value = fSSAINumber,
-                    onValueChange = { fSSAINumber= it },
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    label = { Text("FSSAI Reg Number*") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                OutlinedTextField(
-                    value = gSTINNumber,
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    onValueChange = { gSTINNumber = it},
-                    label = { Text("GSTIN Number*") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Owner Contact Details Section
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Text(
-                    text = "Owner Bank Details",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = "To get updates on payments, customer complaints, order acceptance, etc",
-                    fontSize = 14.sp,
-                    color = Color.Gray
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                OutlinedTextField(
-                    value = ifsc,
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    onValueChange = { ifsc = it},
-                    label = { Text("IFSC Code*") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                OutlinedTextField(
-                    value = bankAccountNumber,
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    onValueChange = { bankAccountNumber= it},
-                    label = { Text("Bank Account Number*") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = "You will receive order payments in this accounts",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Text(
-                    text = "Owner PAN Details",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                OutlinedTextField(
-                    value = pANNumber,
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number
-                    ),
-                    onValueChange = {pANNumber = it},
-                    label = { Text("PAN Number*") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = "Give correct credentials for registering the restaurant",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        Button(
-            onClick = {
-                viewModel.addSeller(seller, onError = {
-                    Toast.makeText(context,"Error adding the user details", Toast.LENGTH_SHORT).show()
-                }, onSuccess = {
-                    Toast.makeText(context,"successfully added the user details", Toast.LENGTH_SHORT).show()
-                })
-            },
-            enabled= fSSAINumber!="" && gSTINNumber!="" && bankAccountNumber!="" && pANNumber!="" && ifsc!="",
-            colors = if(fSSAINumber!="" || gSTINNumber!="" || bankAccountNumber!="" || pANNumber!="" || ifsc!="")ButtonDefaults.buttonColors(Color(0xFFFF5722)) else ButtonDefaults.buttonColors(Color(0xFFFF5722)), // Orange color
-            shape = RoundedCornerShape(8.dp),
+        LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .fillMaxSize()
+                .padding(16.dp)
+                .background(Color(0xFFF6F6F6)) // Light gray background
         ) {
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Basic Details Section
+            item {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Restaurant Documents",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        OutlinedTextField(
+                            value = fSSAINumber,
+                            onValueChange = { fSSAINumber = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                            label = { Text("FSSAI Reg Number*") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        OutlinedTextField(
+                            value = gSTINNumber,
+                            onValueChange = { gSTINNumber = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                            label = { Text("GSTIN Number*") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+            }
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Owner Contact Details Section
+            item {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Owner Bank Details",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text(
+                            text = "To get updates on payments, customer complaints, order acceptance, etc",
+                            fontSize = 14.sp,
+                            color = Color.Gray
+                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        OutlinedTextField(
+                            value = ifsc,
+                            onValueChange = { ifsc = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                            label = { Text("IFSC Code*") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        OutlinedTextField(
+                            value = bankAccountNumber,
+                            onValueChange = { bankAccountNumber = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                            label = { Text("Bank Account Number*") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        Text(
+                            text = "You will receive order payments in this account",
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
+            }
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Owner PAN Details Section
+            item {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Owner PAN Details",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        OutlinedTextField(
+                            value = pANNumber,
+                            onValueChange = { pANNumber = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                            label = { Text("PAN Number*") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        Text(
+                            text = "Provide correct credentials for registering the restaurant",
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
+            }
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Add Details Button
+            item {
+                Button(
+                    onClick = {
+                        viewModel.updateSellerBankDetails(fSSAINumber,currentStep,ifsc,bankAccountNumber,gSTINNumber,pANNumber, onSuccess = {
+                            Toast.makeText(context,"Successfully added",Toast.LENGTH_SHORT).show()
+                            fSSAINumber=""
+                            gSTINNumber=""
+                            bankAccountNumber=""
+                            ifsc=""
+                            pANNumber=""
+
+                        }, onError = {
+                            Toast.makeText(context,"Error Occurred",Toast.LENGTH_SHORT).show()
+                        })
+                    },
+                    enabled = fSSAINumber.isNotEmpty() && gSTINNumber.isNotEmpty() && bankAccountNumber.isNotEmpty() && pANNumber.isNotEmpty() && ifsc.isNotEmpty(),
+                    colors = ButtonDefaults.buttonColors(Color(0xFFFF5722)),
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(
+                        text = "Add Details",
+                        color = Color.White
+                    )
+                }
+            }
+
+            // Help Footer
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "If you need any help, check out the FAQs",
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
+}
+@Composable
+fun RestaurantDetailsScreen3(navController: NavController) {
+    // owner Bank details
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val viewModel: AddSellerViewModel = hiltViewModel()
+    val context = LocalContext.current
+    val currentStep by remember {
+        mutableIntStateOf(4)
+    }
+    var restaurantMenu by remember {
+        mutableStateOf<Uri?>(null)
+    }
+    val chooserDialog = remember {
+        mutableStateOf(false)
+    }
+
+    val cameraImageUri = remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val cameraImageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) {
+            restaurantMenu = cameraImageUri.value // Use this for restaurant image
+        }
+    }
+
+    val restaurantMenuLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            restaurantMenu = it // Use this for restaurant menu
+        }
+    }
+
+    fun createImageUri(): Uri {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir = ContextCompat.getExternalFilesDirs(
+            navController.context, Environment.DIRECTORY_PICTURES
+        ).first()
+        return FileProvider.getUriForFile(navController.context,
+            "${navController.context.packageName}.provider",
+            File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
+                cameraImageUri.value = Uri.fromFile(this)
+            })
+    }
+
+    val permissionLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                cameraImageLauncher.launch(createImageUri())
+            }
+        }
+
+    val seller = Seller(
+        currentStep = currentStep,
+        restaurantMenu = restaurantMenu?.toString()?:""
+    )
+
+    @Composable
+    fun ContentSelectionDialog(onCameraSelected: () -> Unit, onGallerySelected: () -> Unit) {
+        AlertDialog(onDismissRequest = { },
+            confirmButton = {
+                TextButton(onClick = onCameraSelected) {
+                    Text(text = "Camera")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onGallerySelected) {
+                    Text(text = "Gallery")
+                }
+            },
+            title = { Text(text = "Select your source?") },
+            text = { Text(text = "Would you like to pick an image from the gallery or use the") })
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+
+        if (chooserDialog.value) {
+            ContentSelectionDialog(onCameraSelected = {
+                chooserDialog.value = false
+                if (navController.context.checkSelfPermission(Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                    cameraImageLauncher.launch(createImageUri())
+                } else {
+                    permissionLauncher.launch(Manifest.permission.CAMERA)
+                }
+            }, onGallerySelected = {
+                chooserDialog.value = false
+                restaurantMenuLauncher.launch("image/*")
+            })
+        }
+
+
+        Row(
+            modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues())
+        ) {
+            IconButton(onClick = {
+                navController.popBackStack("OnBoardingStepper", false)
+            }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back"
+                )
+            }
+
             Text(
-                text = "Add Details",
-                color = Color.White
+                text = "Restaurant Menu",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 8.dp)
             )
         }
 
-        // Help Footer
-        Text(
-            text = "If you need any help, check out the FAQs",
-            fontSize = 14.sp,
-            color = Color.Gray,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .background(Color(0xFFF6F6F6)) // Light gray background
+        ) {
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Basic Details Section
+            item {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+
+                        Box(modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center) {
+                            IconButton(
+                                onClick = { chooserDialog.value = true },
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .clip(CircleShape)
+                                    .background(Color.Gray.copy(alpha = 0.2f))
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = "Add Photo",
+                                    tint = Color.DarkGray,
+                                    modifier = Modifier.size(60.dp)
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+                   Box(modifier = Modifier.fillMaxWidth(),
+                       contentAlignment = Alignment.Center) {
+                       Text(
+                           text = "Restaurant Menu ",
+                           textAlign = TextAlign.Center,
+                           fontFamily = FontFamily.Cursive,
+                           fontSize = 28.sp,
+                           fontWeight = FontWeight.SemiBold,
+                           color = Color.Black
+                       )
+                       }
+
+                    }
+                }
+            }
+
+            item { Spacer(modifier = Modifier.height(24.dp)) }
+
+            // Add Details Button
+            item {
+                Button(
+                    onClick = {
+                      viewModel.uploadImageAndAddSeller( restaurantMenu, seller , onError = {
+                          Toast.makeText(context,"Error Occurred", Toast.LENGTH_SHORT).show()
+                      } , onSuccess = {
+                          Toast.makeText(context,"Added successfully", Toast.LENGTH_SHORT).show()
+                      } )
+                    },
+//                    enabled = ,
+                    colors = ButtonDefaults.buttonColors(Color(0xFFFF5722)),
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(
+                        text = "Add Menu",
+                        color = Color.White
+                    )
+                }
+            }
+
+            // Help Footer
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "If you need any help, check out the FAQs",
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
     }
 }
+
 
 
 @Preview(showBackground = true)

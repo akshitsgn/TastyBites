@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.seller.addseller
 
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,18 +12,22 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class AddSellerViewModel @Inject constructor() : ViewModel() {
+    private val firebaseStorage = FirebaseStorage.getInstance().reference
     private val firebaseDatabase = Firebase.database
     private val _users = MutableStateFlow<List<Seller>>(emptyList())
     val users = _users.asStateFlow()
@@ -53,6 +58,73 @@ class AddSellerViewModel @Inject constructor() : ViewModel() {
             }
         })
     }
+
+    fun uploadImageAndAddSeller(
+        menuImage: Uri?,
+        seller: Seller,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        if (menuImage != null) {
+            val imageRef = firebaseStorage.child("images/${UUID.randomUUID()}.jpg")
+            imageRef.putFile(menuImage)
+                .addOnSuccessListener {
+                    imageRef.downloadUrl.addOnSuccessListener { uri ->
+                        // Only update the restaurantMenu field
+                        val sellerId = currentUser?.uid
+                        if (sellerId != null) {
+                            val sellerRef = FirebaseDatabase.getInstance().reference.child("seller").child(sellerId)
+
+                            sellerRef.child("restaurantMenu").setValue(uri.toString())
+                                .addOnSuccessListener {
+                                    onSuccess()
+                                }
+                                .addOnFailureListener {
+                                    onError(it.message ?: "Failed to update restaurant menu")
+                                }
+                        } else {
+                            onError("Seller ID not found")
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    onError(it.message ?: "Failed to upload image")
+                }
+        } else {
+            // If no image is provided, just add the seller details
+            addSeller(seller, onSuccess, onError)
+        }
+    }
+
+    fun updateSellerBankDetails(
+        fSSAINumber: String,
+        currentStep: Int,
+        gSTINNumber: String,
+        pANNumber: String,
+        ifsc: String,
+        bankAccountNumber: String,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        val sellerId = currentUser?.uid
+        // Create a map with only the fields to update
+        val updates = mapOf(
+            "FSSAIRegNumber" to fSSAINumber,
+            "GSTIN" to gSTINNumber,
+            "panNumber" to pANNumber,
+            "IFSCNumber" to ifsc,
+            "bankAccountNumber" to bankAccountNumber ,
+            "currentStep" to currentStep
+        )
+        if (sellerId != null) {
+            firebaseDatabase.getReference("seller")
+                .child(sellerId)
+                .updateChildren(updates)
+                .addOnSuccessListener { onSuccess() }
+                .addOnFailureListener { onError() }
+        }
+    }
+
       fun addSeller(seller: Seller, onSuccess: () -> Unit, onError: (String) -> Unit) {
         if (currentUser == null) {
             return onError("User is not authenticated.")

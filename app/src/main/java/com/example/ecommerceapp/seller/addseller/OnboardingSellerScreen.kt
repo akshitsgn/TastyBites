@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -75,17 +76,19 @@ fun OnboardingSellerScreen(navController: NavController){
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "Make your restaurant delivery-ready in 24hrs!",
+                fontFamily = FontFamily.Cursive,
                 color = Color.White,
                 // textAlign = TextAlign.Center,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Fast-track your growth with Tasty-Bites Where flavor meets opportunity!",
+                fontFamily= FontFamily.Cursive,
                 //textAlign = TextAlign.Center,
                 color = Color(0xFFFFA726),
-                fontSize = 16.sp,
+                fontSize = 22.sp,
                 fontWeight = FontWeight.Medium
             )
 
@@ -103,7 +106,8 @@ fun OnboardingSellerScreen(navController: NavController){
                     Text(
                         text = "For an easy form filling process, you can keep the following handy.",
                         color = Color.White,
-                        fontSize = 14.sp
+                        fontFamily= FontFamily.Cursive,
+                        fontSize = 18.sp
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Divider(modifier = Modifier.fillMaxWidth(),
@@ -128,7 +132,7 @@ fun OnboardingSellerScreen(navController: NavController){
                                     .clip(CircleShape)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text(text = item, color = Color.White, fontSize = 14.sp)
+                            Text(text = item, color = Color.White, fontSize = 16.sp, fontFamily= FontFamily.Cursive,)
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                     }
@@ -150,6 +154,7 @@ fun OnboardingSellerScreen(navController: NavController){
                 Text(
                     text = "Let's Begin!",
                     color = Color.White,
+                    fontFamily= FontFamily.Cursive,
                     fontSize = 18.sp
                 )
             }

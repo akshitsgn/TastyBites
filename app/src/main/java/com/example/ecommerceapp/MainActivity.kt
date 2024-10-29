@@ -22,6 +22,7 @@ import com.example.ecommerceapp.seller.addseller.OnboardingScreen
 import com.example.ecommerceapp.seller.addseller.OnboardingSellerScreen
 import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen1
 import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen2
+import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen3
 import com.example.ecommerceapp.ui.theme.EcommerceAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,8 +34,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             EcommerceAppTheme {
                 val navController = rememberNavController()
-               // NavScreen()
-              RestaurantDetailsScreen2(navController)
+                NavScreen()
+                //SignInScreen(navController)
+               //RestaurantDetailsScreen3(navController)
             }
         }
     }
