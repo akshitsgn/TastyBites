@@ -14,6 +14,7 @@ import com.example.ecommerceapp.seller.addseller.OnboardingSellerScreen
 import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen1
 import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen2
 import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen3
+import com.example.ecommerceapp.seller.dashboard.SellerDashboardScreen
 
 @Composable
 fun NavScreen(){
@@ -49,6 +50,9 @@ fun NavScreen(){
         }
         composable("RestaurantDetails3"){
             RestaurantDetailsScreen3(navController)
+        }
+        composable("sellerDashboard"){
+            SellerDashboardScreen()
         }
 
     }

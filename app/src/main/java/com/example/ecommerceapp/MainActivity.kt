@@ -35,8 +35,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             EcommerceAppTheme {
                 val navController = rememberNavController()
-                // NavScreen()
-                SellerDashboardScreen()
+                 NavScreen()
+                // SellerDashboardScreen()
                 //SignInScreen(navController)
                //RestaurantDetailsScreen3(navController)
             }
