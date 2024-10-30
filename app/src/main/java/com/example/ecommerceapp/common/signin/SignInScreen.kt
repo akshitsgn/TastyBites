@@ -104,7 +104,7 @@ fun SignInScreen(navController: NavController) {
     ) {
         // Background image to match the food delivery theme
         Image(
-            painter = backgroundImage, // Replace with your background image
+            painter = painterResource(id = R.drawable.food3), // Replace with your background image
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier

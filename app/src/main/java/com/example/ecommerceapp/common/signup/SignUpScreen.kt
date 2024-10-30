@@ -114,7 +114,7 @@ fun SignUpScreen(navController: NavController) {
     val backgroundImage: Painter = painterResource(id = imageResources[currentImageIndex])
     Box(modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center) {
-       Image(painter = backgroundImage, contentDescription = "",
+       Image(painter = painterResource(id = R.drawable.food3), contentDescription = "",
            modifier = Modifier
                .fillMaxSize()
                .alpha(0.8f),

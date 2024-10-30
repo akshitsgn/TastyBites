@@ -23,6 +23,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -37,12 +39,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.ecommerceapp.R
 
 @Composable
 fun OnboardingSellerScreen(navController: NavController){
-
+    val viewModel: AddSellerViewModel = hiltViewModel()
+    val uniqueSeller by viewModel.uniqueSeller.collectAsState()
+    val currentStep = uniqueSeller?.currentStep?: 1
     val backgroundImage: Painter = painterResource(id = R.drawable.food1) // Replace with your background image
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -143,7 +148,12 @@ fun OnboardingSellerScreen(navController: NavController){
 
             Button(
                 onClick = {
-                    navController.navigate("OnBoardingStepper")
+                    if(currentStep<4) {
+                        navController.navigate("OnBoardingStepper")
+                    }
+                    else{
+                        navController.navigate("AddProduct")
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726).copy(alpha = 0.6f)),
                 modifier = Modifier

@@ -8,7 +8,9 @@ import android.os.Environment
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
@@ -21,6 +23,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +47,7 @@ import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.ecommerceapp.common.models.Seller
 import com.google.firebase.auth.FirebaseAuth
 import java.io.File
@@ -249,11 +253,7 @@ fun RestaurantDetailsScreen1(navController: NavController) {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }, onSuccess = { Toast.makeText(context, "Successfully added the user details", Toast.LENGTH_SHORT).show()
-                            ownername=""
-                            restaurantname=""
-                            address=""
-                            emailaddress=""
-                            description=""
+                            navController.popBackStack("OnBoardingStepper", false)
 
                         })
                     },
@@ -300,10 +300,10 @@ fun RestaurantDetailsScreen2(navController: NavController) {
     var bankAccountNumber by remember { mutableStateOf("") }
 
     val seller = Seller(
-        GSTIN = gSTINNumber,
-        FSSAIRegNumber = fSSAINumber,
+        gstin = gSTINNumber,
+        fssairegNumber = fSSAINumber,
         panNumber = pANNumber,
-        IFSCNumber = ifsc,
+        ifscnumber = ifsc,
         bankAccountNumber = bankAccountNumber,
         currentStep = currentStep
     )
@@ -476,11 +476,7 @@ fun RestaurantDetailsScreen2(navController: NavController) {
                     onClick = {
                         viewModel.updateSellerBankDetails(fSSAINumber,currentStep,ifsc,bankAccountNumber,gSTINNumber,pANNumber, onSuccess = {
                             Toast.makeText(context,"Successfully added",Toast.LENGTH_SHORT).show()
-                            fSSAINumber=""
-                            gSTINNumber=""
-                            bankAccountNumber=""
-                            ifsc=""
-                            pANNumber=""
+                            navController.popBackStack("OnBoardingStepper", false)
 
                         }, onError = {
                             Toast.makeText(context,"Error Occurred",Toast.LENGTH_SHORT).show()
@@ -515,29 +511,58 @@ fun RestaurantDetailsScreen2(navController: NavController) {
 }
 @Composable
 fun RestaurantDetailsScreen3(navController: NavController) {
+
+
     // owner Bank details
     val currentUser = FirebaseAuth.getInstance().currentUser
     val viewModel: AddSellerViewModel = hiltViewModel()
+    val uniqueSeller by viewModel.uniqueSeller.collectAsState()
     val context = LocalContext.current
+    val ownername = uniqueSeller?.ownerName
+    val restaurantname = uniqueSeller?.restaurantName
+    val emailaddress = uniqueSeller?.emailAddress
+    val address = uniqueSeller?.address
+    val description = uniqueSeller?.description
+    val fSSAINumber = uniqueSeller?.fssairegNumber
+    val gSTINNumber = uniqueSeller?.gstin
+    val pANNumber = uniqueSeller?.panNumber
+    val ifsc  = uniqueSeller?.ifscnumber
+    val bankAccountNumber = uniqueSeller?.bankAccountNumber
     val currentStep by remember {
         mutableIntStateOf(4)
     }
     var restaurantMenu by remember {
         mutableStateOf<Uri?>(null)
     }
-    val chooserDialog = remember {
+    var restaurantImage by remember{
+        mutableStateOf<Uri?>(null)
+    }
+    val chooserDialogMenu = remember {
+        mutableStateOf(false)
+    }
+    val chooserDialogRestaurant = remember {
         mutableStateOf(false)
     }
 
-    val cameraImageUri = remember {
+    val cameraImageUriMenu = remember {
+        mutableStateOf<Uri?>(null)
+    }
+    val cameraImageUriRestaurant = remember {
         mutableStateOf<Uri?>(null)
     }
 
-    val cameraImageLauncher = rememberLauncherForActivityResult(
+    val cameraImageLauncherMenu = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture()
     ) { success ->
         if (success) {
-            restaurantMenu = cameraImageUri.value // Use this for restaurant image
+            restaurantMenu = cameraImageUriMenu.value // Use this for restaurant image
+        }
+    }
+    val cameraImageLauncherRestaurant = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) {
+            restaurantImage = cameraImageUriRestaurant.value // Use this for restaurant image
         }
     }
 
@@ -548,8 +573,15 @@ fun RestaurantDetailsScreen3(navController: NavController) {
             restaurantMenu = it // Use this for restaurant menu
         }
     }
+    val restaurantImageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            restaurantImage = it // Use this for restaurant menu
+        }
+    }
 
-    fun createImageUri(): Uri {
+    fun createImageUriMenu(): Uri {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir = ContextCompat.getExternalFilesDirs(
             navController.context, Environment.DIRECTORY_PICTURES
@@ -557,18 +589,40 @@ fun RestaurantDetailsScreen3(navController: NavController) {
         return FileProvider.getUriForFile(navController.context,
             "${navController.context.packageName}.provider",
             File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
-                cameraImageUri.value = Uri.fromFile(this)
+                cameraImageUriMenu.value = Uri.fromFile(this)
+            })
+    }
+    fun createImageUriRestaurant(): Uri {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir = ContextCompat.getExternalFilesDirs(
+            navController.context, Environment.DIRECTORY_PICTURES
+        ).first()
+        return FileProvider.getUriForFile(navController.context,
+            "${navController.context.packageName}.provider",
+            File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir).apply {
+                cameraImageUriRestaurant.value = Uri.fromFile(this)
             })
     }
 
     val permissionLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                cameraImageLauncher.launch(createImageUri())
+                cameraImageLauncherMenu.launch(createImageUriMenu())
+                cameraImageLauncherRestaurant.launch(createImageUriRestaurant())
             }
         }
 
     val seller = Seller(
+        ownerName = ownername,
+        restaurantName = restaurantname,
+        emailAddress = emailaddress,
+        address = address,
+        description = description,
+        fssairegNumber = fSSAINumber,
+        gstin = gSTINNumber,
+        panNumber = pANNumber,
+        ifscnumber = ifsc,
+        bankAccountNumber = bankAccountNumber,
         currentStep = currentStep,
         restaurantMenu = restaurantMenu?.toString()?:""
     )
@@ -592,19 +646,33 @@ fun RestaurantDetailsScreen3(navController: NavController) {
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        if (chooserDialog.value) {
+        if (chooserDialogMenu.value) {
             ContentSelectionDialog(onCameraSelected = {
-                chooserDialog.value = false
+                chooserDialogMenu.value = false
                 if (navController.context.checkSelfPermission(Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                    cameraImageLauncher.launch(createImageUri())
+                    cameraImageLauncherMenu.launch(createImageUriMenu())
                 } else {
                     permissionLauncher.launch(Manifest.permission.CAMERA)
                 }
             }, onGallerySelected = {
-                chooserDialog.value = false
+                chooserDialogMenu.value = false
                 restaurantMenuLauncher.launch("image/*")
             })
         }
+        if (chooserDialogRestaurant.value) {
+            ContentSelectionDialog(onCameraSelected = {
+                chooserDialogRestaurant.value = false
+                if (navController.context.checkSelfPermission(Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                    cameraImageLauncherRestaurant.launch(createImageUriRestaurant())
+                } else {
+                    permissionLauncher.launch(Manifest.permission.CAMERA)
+                }
+            }, onGallerySelected = {
+                chooserDialogRestaurant.value = false
+                restaurantImageLauncher.launch("image/*")
+            })
+        }
+
 
 
         Row(
@@ -620,7 +688,7 @@ fun RestaurantDetailsScreen3(navController: NavController) {
             }
 
             Text(
-                text = "Restaurant Menu",
+                text = "Restaurant Details",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 8.dp)
@@ -648,19 +716,30 @@ fun RestaurantDetailsScreen3(navController: NavController) {
 
                         Box(modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.Center) {
-                            IconButton(
-                                onClick = { chooserDialog.value = true },
-                                modifier = Modifier
-                                    .size(120.dp)
-                                    .clip(CircleShape)
-                                    .background(Color.Gray.copy(alpha = 0.2f))
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "Add Photo",
-                                    tint = Color.DarkGray,
-                                    modifier = Modifier.size(60.dp)
+                            if (restaurantMenu != null) {
+                                Image(
+                                    painter = rememberAsyncImagePainter(restaurantMenu),
+                                    contentDescription = "Selected Image",
+                                    modifier = Modifier
+                                        .size(120.dp)
+                                        .clip(CircleShape)
+                                        .border(2.dp, Color.Gray, CircleShape)
                                 )
+                            } else {
+                                IconButton(
+                                    onClick = { chooserDialogMenu.value = true },
+                                    modifier = Modifier
+                                        .size(120.dp)
+                                        .clip(CircleShape)
+                                        .background(Color.Gray.copy(alpha = 0.2f))
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Add,
+                                        contentDescription = "Add Photo",
+                                        tint = Color.DarkGray,
+                                        modifier = Modifier.size(60.dp)
+                                    )
+                                }
                             }
                         }
 
@@ -681,19 +760,73 @@ fun RestaurantDetailsScreen3(navController: NavController) {
                 }
             }
 
-            item { Spacer(modifier = Modifier.height(24.dp)) }
+            item { Spacer(modifier = Modifier.height(12.dp)) }
+            item {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
 
+                        Box(modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center) {
+                            if (restaurantImage != null) {
+                                Image(
+                                    painter = rememberAsyncImagePainter(restaurantImage),
+                                    contentDescription = "Selected Image",
+                                    modifier = Modifier
+                                        .size(120.dp)
+                                        .clip(CircleShape)
+                                        .border(2.dp, Color.Gray, CircleShape)
+                                )
+                            } else {
+                                IconButton(
+                                    onClick = { chooserDialogRestaurant.value = true },
+                                    modifier = Modifier
+                                        .size(120.dp)
+                                        .clip(CircleShape)
+                                        .background(Color.Gray.copy(alpha = 0.2f))
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Add,
+                                        contentDescription = "Add Photo",
+                                        tint = Color.DarkGray,
+                                        modifier = Modifier.size(60.dp)
+                                    )
+                                }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Box(modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center) {
+                            Text(
+                                text = "Restaurant Image",
+                                textAlign = TextAlign.Center,
+                                fontFamily = FontFamily.Cursive,
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.Black
+                            )
+                        }
+
+                    }
+                }
+            }
+            item { Spacer(modifier = Modifier.height(24.dp)) }
             // Add Details Button
             item {
                 Button(
                     onClick = {
-                      viewModel.uploadImageAndAddSeller( restaurantMenu, seller , onError = {
+                      viewModel.uploadMenuImageAndAddSeller( restaurantMenu,restaurantImage, seller , onError = {
                           Toast.makeText(context,"Error Occurred", Toast.LENGTH_SHORT).show()
                       } , onSuccess = {
                           Toast.makeText(context,"Added successfully", Toast.LENGTH_SHORT).show()
+                          navController.popBackStack("OnBoardingStepper", false)
                       } )
                     },
-//                    enabled = ,
+                    enabled = restaurantMenu!= null,
                     colors = ButtonDefaults.buttonColors(Color(0xFFFF5722)),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier

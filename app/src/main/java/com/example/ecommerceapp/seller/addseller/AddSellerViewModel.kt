@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.seller.addseller
 
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -59,42 +60,46 @@ class AddSellerViewModel @Inject constructor() : ViewModel() {
         })
     }
 
-    fun uploadImageAndAddSeller(
-        menuImage: Uri?,
+
+    fun uploadMenuImageAndAddSeller(
+        restaurantMenu: Uri?,
+        restaurantImage: Uri?,
         seller: Seller,
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-        if (menuImage != null) {
-            val imageRef = firebaseStorage.child("images/${UUID.randomUUID()}.jpg")
-            imageRef.putFile(menuImage)
-                .addOnSuccessListener {
+        if (restaurantMenu != null && restaurantImage!=null) {
+            val imageRef = firebaseStorage.child("imagesMenu/${UUID.randomUUID()}.jpg")
+            imageRef.putFile(restaurantMenu)
+                .addOnSuccessListener { taskSnapshot ->
                     imageRef.downloadUrl.addOnSuccessListener { uri ->
-                        // Only update the restaurantMenu field
-                        val sellerId = currentUser?.uid
-                        if (sellerId != null) {
-                            val sellerRef = FirebaseDatabase.getInstance().reference.child("seller").child(sellerId)
-
-                            sellerRef.child("restaurantMenu").setValue(uri.toString())
-                                .addOnSuccessListener {
-                                    onSuccess()
-                                }
-                                .addOnFailureListener {
-                                    onError(it.message ?: "Failed to update restaurant menu")
-                                }
-                        } else {
-                            onError("Seller ID not found")
-                        }
+                        // Set the imageUrl with the Firebase Storage download URL
+                        val restaurantMenuImage = seller.copy(restaurantMenu = uri.toString())
+                        // Now add the student with the image URL to the database
+                        addSeller(restaurantMenuImage, onSuccess, onError)
                     }
                 }
+
+            val restaurantImageRef =  firebaseStorage.child("imagesRestaurant/${UUID.randomUUID()}.jpg")
+            restaurantImageRef.putFile(restaurantImage)
+                .addOnSuccessListener { taskSnapshot ->
+                    imageRef.downloadUrl.addOnSuccessListener { uri ->
+                                // Set the imageUrl with the Firebase Storage download URL
+                        val restaurantsImage = seller.copy(restaurantImage = uri.toString())
+                                // Now add the student with the image URL to the database
+                        addSeller(restaurantsImage, onSuccess, onError)
+                    }
+                }
+
                 .addOnFailureListener {
                     onError(it.message ?: "Failed to upload image")
                 }
         } else {
-            // If no image is provided, just add the seller details
+            // No image was selected, proceed with adding the student without image URL
             addSeller(seller, onSuccess, onError)
         }
     }
+
 
     fun updateSellerBankDetails(
         fSSAINumber: String,
@@ -109,10 +114,10 @@ class AddSellerViewModel @Inject constructor() : ViewModel() {
         val sellerId = currentUser?.uid
         // Create a map with only the fields to update
         val updates = mapOf(
-            "FSSAIRegNumber" to fSSAINumber,
-            "GSTIN" to gSTINNumber,
+            "fssairegNumber" to fSSAINumber,
+            "gstin" to gSTINNumber,
             "panNumber" to pANNumber,
-            "IFSCNumber" to ifsc,
+            "ifscnumber" to ifsc,
             "bankAccountNumber" to bankAccountNumber ,
             "currentStep" to currentStep
         )

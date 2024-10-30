@@ -93,7 +93,7 @@ fun OnboardingScreen(navController: NavController) {
         ) {
 
             Text(
-                text = "Let's finish",
+                text = "Let's Begin",
                 fontSize = 50.sp,
                 color = Color.White,
                 fontFamily = FontFamily.Cursive,
