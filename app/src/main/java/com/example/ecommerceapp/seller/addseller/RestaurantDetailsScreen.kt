@@ -674,8 +674,6 @@ fun RestaurantDetailsScreen3(navController: NavController) {
             })
         }
 
-
-
         Row(
             modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues())
         ) {
@@ -695,7 +693,6 @@ fun RestaurantDetailsScreen3(navController: NavController) {
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
-
 
         LazyColumn(
             modifier = Modifier

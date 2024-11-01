@@ -262,7 +262,7 @@ fun SignUpScreen(navController: NavController) {
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.AccountBox,
-                        contentDescription = "Toggle password visibility",
+                        contentDescription = "UserRole",
                         tint = Color.DarkGray
                     )
                 },
