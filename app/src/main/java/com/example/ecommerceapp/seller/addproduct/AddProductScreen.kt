@@ -231,11 +231,7 @@ fun AddProductScreen(navController: NavController){
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .border(
-                            1.dp,
-                            color = Color.Black.copy(alpha = 0.3f),
-                            shape = RoundedCornerShape(16.dp)
-                        ),
+                        .border(1.dp, color = Color.Black.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {

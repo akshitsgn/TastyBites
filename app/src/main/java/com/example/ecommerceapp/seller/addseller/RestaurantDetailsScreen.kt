@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +49,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.ecommerceapp.R
 import com.example.ecommerceapp.common.models.Seller
 import com.google.firebase.auth.FirebaseAuth
 import java.io.File
@@ -119,7 +121,7 @@ fun RestaurantDetailsScreen1(navController: NavController) {
             item {
                 Card(
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth() .border(1.dp, color = Color.Black.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -146,6 +148,22 @@ fun RestaurantDetailsScreen1(navController: NavController) {
                             label = { Text("Restaurant Name*") },
                             modifier = Modifier.fillMaxWidth()
                         )
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        Row {
+                            Text(
+                                text = "\u002A",
+                                fontSize = 18.sp,
+                                color = Color.Red.copy(alpha=0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = "All fields are necessary ",
+                                fontSize = 14.sp,
+                                color = Color.Gray,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
@@ -156,7 +174,7 @@ fun RestaurantDetailsScreen1(navController: NavController) {
             item {
                 Card(
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth() .border(1.dp, color = Color.Black.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -194,11 +212,20 @@ fun RestaurantDetailsScreen1(navController: NavController) {
 
                         Spacer(modifier = Modifier.height(4.dp))
 
-                        Text(
-                            text = "You will receive a verification mail on this ID",
-                            fontSize = 12.sp,
-                            color = Color.Gray
-                        )
+                        Row {
+                            Text(
+                                text = "\u002A",
+                                fontSize = 18.sp,
+                                color = Color.Red.copy(alpha=0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = "All fields are necessary ",
+                                fontSize = 14.sp,
+                                color = Color.Gray,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
@@ -208,8 +235,9 @@ fun RestaurantDetailsScreen1(navController: NavController) {
             // Restaurant Location Details Section
             item {
                 Card(
+
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth() .border(1.dp, color = Color.Black.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -219,8 +247,14 @@ fun RestaurantDetailsScreen1(navController: NavController) {
                             fontWeight = FontWeight.SemiBold,
                             color = Color.Black
                         )
+                        Spacer(modifier = Modifier.height(4.dp))
 
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Text(
+                            text = "You will deliver food orders from this location",
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
 
                         OutlinedTextField(
                             value = address,
@@ -230,12 +264,20 @@ fun RestaurantDetailsScreen1(navController: NavController) {
                         )
 
                         Spacer(modifier = Modifier.height(4.dp))
-
-                        Text(
-                            text = "You will deliver food orders from this location",
-                            fontSize = 12.sp,
-                            color = Color.Gray
-                        )
+                        Row {
+                            Text(
+                                text = "\u002A",
+                                fontSize = 18.sp,
+                                color = Color.Red.copy(alpha=0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = "All fields are necessary ",
+                                fontSize = 14.sp,
+                                color = Color.Gray,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
@@ -343,7 +385,7 @@ fun RestaurantDetailsScreen2(navController: NavController) {
             item {
                 Card(
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth() .border(1.dp, color = Color.Black.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -372,6 +414,21 @@ fun RestaurantDetailsScreen2(navController: NavController) {
                             label = { Text("GSTIN Number*") },
                             modifier = Modifier.fillMaxWidth()
                         )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row {
+                            Text(
+                                text = "\u002A",
+                                fontSize = 18.sp,
+                                color = Color.Red.copy(alpha=0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = "All fields are necessary ",
+                                fontSize = 14.sp,
+                                color = Color.Gray,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
@@ -382,7 +439,7 @@ fun RestaurantDetailsScreen2(navController: NavController) {
             item {
                 Card(
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth() .border(1.dp, color = Color.Black.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -419,14 +476,21 @@ fun RestaurantDetailsScreen2(navController: NavController) {
                             label = { Text("Bank Account Number*") },
                             modifier = Modifier.fillMaxWidth()
                         )
-
                         Spacer(modifier = Modifier.height(4.dp))
-
-                        Text(
-                            text = "You will receive order payments in this account",
-                            fontSize = 12.sp,
-                            color = Color.Gray
-                        )
+                        Row {
+                            Text(
+                                text = "\u002A",
+                                fontSize = 18.sp,
+                                color = Color.Red.copy(alpha=0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = "All fields are necessary ",
+                                fontSize = 14.sp,
+                                color = Color.Gray,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
@@ -437,7 +501,7 @@ fun RestaurantDetailsScreen2(navController: NavController) {
             item {
                 Card(
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth() .border(1.dp, color = Color.Black.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -447,7 +511,14 @@ fun RestaurantDetailsScreen2(navController: NavController) {
                             fontWeight = FontWeight.SemiBold,
                             color = Color.Black
                         )
-                        Spacer(modifier = Modifier.height(12.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        Text(
+                            text = "Provide correct credentials for registering the restaurant",
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
 
                         OutlinedTextField(
                             value = pANNumber,
@@ -457,13 +528,21 @@ fun RestaurantDetailsScreen2(navController: NavController) {
                             modifier = Modifier.fillMaxWidth()
                         )
 
-                        Spacer(modifier = Modifier.height(4.dp))
-
-                        Text(
-                            text = "Provide correct credentials for registering the restaurant",
-                            fontSize = 12.sp,
-                            color = Color.Gray
-                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row {
+                            Text(
+                                text = "\u002A",
+                                fontSize = 18.sp,
+                                color = Color.Red.copy(alpha=0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = "All fields are necessary ",
+                                fontSize = 14.sp,
+                                color = Color.Gray,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
@@ -707,7 +786,7 @@ fun RestaurantDetailsScreen3(navController: NavController) {
             item {
                 Card(
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth() .border(1.dp, color = Color.Black.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -731,11 +810,10 @@ fun RestaurantDetailsScreen3(navController: NavController) {
                                         .clip(CircleShape)
                                         .background(Color.Gray.copy(alpha = 0.2f))
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Add,
-                                        contentDescription = "Add Photo",
-                                        tint = Color.DarkGray,
-                                        modifier = Modifier.size(60.dp)
+                                    Image(
+                                        painter = painterResource(id = R.drawable.camera),
+                                        contentDescription = "Restaurant Menu",
+                                        modifier = Modifier.size(80.dp)
                                     )
                                 }
                             }
@@ -753,7 +831,21 @@ fun RestaurantDetailsScreen3(navController: NavController) {
                            color = Color.Black
                        )
                        }
-
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row {
+                            Text(
+                                text = "\u002A",
+                                fontSize = 18.sp,
+                                color = Color.Red.copy(alpha=0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = "All fields are necessary ",
+                                fontSize = 14.sp,
+                                color = Color.Gray,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
@@ -762,7 +854,7 @@ fun RestaurantDetailsScreen3(navController: NavController) {
             item {
                 Card(
                     shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth() .border(1.dp, color = Color.Black.copy(alpha = 0.3f), shape = RoundedCornerShape(16.dp)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
@@ -786,11 +878,10 @@ fun RestaurantDetailsScreen3(navController: NavController) {
                                         .clip(CircleShape)
                                         .background(Color.Gray.copy(alpha = 0.2f))
                                 ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Add,
-                                        contentDescription = "Add Photo",
-                                        tint = Color.DarkGray,
-                                        modifier = Modifier.size(60.dp)
+                                    Image(
+                                        painter = painterResource(id = R.drawable.camera),
+                                        contentDescription = "Restaurant Image",
+                                        modifier = Modifier.size(80.dp)
                                     )
                                 }
                             }
@@ -808,7 +899,21 @@ fun RestaurantDetailsScreen3(navController: NavController) {
                                 color = Color.Black
                             )
                         }
-
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row {
+                            Text(
+                                text = "\u002A",
+                                fontSize = 18.sp,
+                                color = Color.Red.copy(alpha=0.7f),
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = "All fields are necessary ",
+                                fontSize = 14.sp,
+                                color = Color.Gray,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
