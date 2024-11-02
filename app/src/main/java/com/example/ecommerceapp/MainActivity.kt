@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
             EcommerceAppTheme {
                 val navController = rememberNavController()
                 CustomerFeedbackScreen()
+                // RatingScreen()
             }
         }
     }

@@ -3,6 +3,7 @@ package com.example.ecommerceapp.customer.ratingseller
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ecommerceapp.common.models.Reviews
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,8 +19,8 @@ class RatingViewModel @Inject constructor() : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     // MutableLiveData for storing ratings
-    private val _ratingList = MutableLiveData<List<Int>>()
-    val ratingList: LiveData<List<Int>> = _ratingList
+    private val _ratingList = MutableLiveData<List<Reviews>>()
+    val ratingList: LiveData<List<Reviews>> = _ratingList
 
     init {
         listenToProductChanges()
@@ -33,9 +34,9 @@ class RatingViewModel @Inject constructor() : ViewModel() {
             dbReference.child("sellerRatings").child(sellerId)
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        val ratings = mutableListOf<Int>()
+                        val ratings = mutableListOf<Reviews>()
                         for (ratingSnapshot in snapshot.children) {
-                            val rating = ratingSnapshot.getValue(Int::class.java)
+                            val rating = ratingSnapshot.getValue(Reviews::class.java)
                             if (rating != null) {
                                 ratings.add(rating)
                             }
@@ -51,17 +52,14 @@ class RatingViewModel @Inject constructor() : ViewModel() {
     }
 
     // Function to add a rating for a seller
-    fun addSellerRating(rating: Int, onSuccess: () -> Unit, onError: () -> Unit) {
-        val sellerId = auth.currentUser?.uid
-
-        if (sellerId != null) {
+    fun addSellerRating(review: Reviews , onError: () -> Unit, onSuccess: () -> Unit,  sellerId: String) {
             // Generate a new key for the rating
             val ratingKey = dbReference.child("sellerRatings").child(sellerId).push().key
 
             if (ratingKey != null) {
                 // Store the rating under the seller's node
                 dbReference.child("sellerRatings").child(sellerId).child(ratingKey)
-                    .setValue(rating)
+                    .setValue(review)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             onSuccess()
@@ -70,6 +68,6 @@ class RatingViewModel @Inject constructor() : ViewModel() {
                         }
                     }
             }
-        }
+
     }
 }
