@@ -18,39 +18,6 @@ class RatingViewModel @Inject constructor() : ViewModel() {
     private val dbReference: DatabaseReference = FirebaseDatabase.getInstance().getReference()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    // MutableLiveData for storing ratings
-    private val _ratingList = MutableLiveData<List<Reviews>>()
-    val ratingList: LiveData<List<Reviews>> = _ratingList
-
-    init {
-        listenToProductChanges()
-    }
-
-    // Listen for changes in the seller's rating list
-   private fun listenToProductChanges() {
-        val sellerId = auth.currentUser?.uid
-
-        if (sellerId != null) {
-            dbReference.child("sellerRatings").child(sellerId)
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val ratings = mutableListOf<Reviews>()
-                        for (ratingSnapshot in snapshot.children) {
-                            val rating = ratingSnapshot.getValue(Reviews::class.java)
-                            if (rating != null) {
-                                ratings.add(rating)
-                            }
-                        }
-                        _ratingList.value = ratings // Update LiveData
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        // Handle database error if necessary
-                    }
-                })
-        }
-    }
-
     // Function to add a rating for a seller
     fun addSellerRating(review: Reviews , onError: () -> Unit, onSuccess: () -> Unit,  sellerId: String) {
             // Generate a new key for the rating

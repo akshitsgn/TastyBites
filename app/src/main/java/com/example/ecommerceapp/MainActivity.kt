@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommerceapp.customer.Feedback.AddUserFeedback
+import com.example.ecommerceapp.seller.reviews.CustomerFeedbackScreen
 import com.example.ecommerceapp.ui.theme.EcommerceAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +20,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 // CustomerFeedbackScreen()
                 // RatingScreen()
-                AddUserFeedback(navController = navController)
+              //  AddUserFeedback(navController = navController)
+                CustomerFeedbackScreen()
             }
         }
     }
