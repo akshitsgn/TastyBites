@@ -1,8 +1,11 @@
 package com.example.ecommerceapp.common.models
 
+import android.net.Uri
+
 data class Reviews(
     val description : String?="",
-    val rating : String?="",
-    val ratingCategory : String?="",
+    val rating : Int?=0,
+    val foodComplaint: String?="",
+    val complaintDescription: String?="",
     val timestamp: Long = System.currentTimeMillis()
 )

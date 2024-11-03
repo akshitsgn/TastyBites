@@ -1,4 +1,4 @@
-package com.example.ecommerceapp.customer.ratingseller
+package com.example.ecommerceapp.customer.Feedback
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

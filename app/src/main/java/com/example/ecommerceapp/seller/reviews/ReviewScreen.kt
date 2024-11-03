@@ -84,7 +84,11 @@ Column (
 ){
     Row(verticalAlignment = Alignment.CenterVertically) {
         IconButton(onClick = { /* Handle back navigation */ }) {
-            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+            Icon(
+                Icons.Default.ArrowBack,
+                contentDescription = "Back",
+                tint= Color.White
+            )
         }
 
         Text(
@@ -220,9 +224,21 @@ fun ReviewItem(name: String, daysAgo: String, rating: Int, review: String) {
             modifier=Modifier.padding(8.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(bottom = 4.dp)) {
-                Text(text = name, color = Color.White, style = MaterialTheme.typography.subtitle1, fontWeight = FontWeight.Bold)
+
+                Text(
+                    text = name,
+                    color = Color.White,
+                    fontFamily = FontFamily.Serif,
+                    style = MaterialTheme.typography.subtitle1,
+                    fontWeight = FontWeight.Bold
+                )
+
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = daysAgo, color = Color.White, style = MaterialTheme.typography.caption)
+
+                Text(
+                    text = daysAgo,
+                    color = Color.White,
+                    style = MaterialTheme.typography.caption)
             }
 
             Row {
