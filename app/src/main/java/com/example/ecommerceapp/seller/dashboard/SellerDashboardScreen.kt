@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.ecommerceapp.R
+import com.example.ecommerceapp.seller.addedproducts.FoodItemsSection
 import com.example.ecommerceapp.seller.addseller.AddSellerViewModel
 import kotlinx.coroutines.delay
 import kotlin.math.round

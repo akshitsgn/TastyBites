@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.ecommerceapp.seller.addseller.AddSellerViewModel
 
@@ -62,8 +63,8 @@ fun HeaderSection() {
             )
         }
         Spacer(modifier = Modifier.weight(1f))
-        Image(
-            painter = rememberAsyncImagePainter(model=restaurantImage),
+        AsyncImage(
+            model = restaurantImage,
             contentDescription = "Selected Image",
             modifier = Modifier
                 .size(40.dp)

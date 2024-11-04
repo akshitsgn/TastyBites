@@ -100,7 +100,7 @@ fun AddProductScreen(navController: NavController){
     var price by remember {
         mutableStateOf("")
     }
-    val discount by remember {
+    var discount by remember {
         mutableStateOf("")
     }
     var check by remember {
@@ -119,9 +119,7 @@ fun AddProductScreen(navController: NavController){
             price = price,
             discount = discount,
             type = type,
-            ingredients = ingredients,
-            imageUrl = restaurantFood?.toString()?:""
-
+            ingredients = ingredients
         )
     val chooserDialogFood = remember {
         mutableStateOf(false)
@@ -326,7 +324,7 @@ fun AddProductScreen(navController: NavController){
                         OutlinedTextField(
                             value = name,
                             onValueChange = { name = it },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                            //keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                             label = { Text("Product Name *") },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -336,7 +334,7 @@ fun AddProductScreen(navController: NavController){
                         OutlinedTextField(
                             value = type,
                             onValueChange = { type = it },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                           // keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                             label = { Text("Product Type *") },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -394,7 +392,7 @@ fun AddProductScreen(navController: NavController){
                         OutlinedTextField(
                             value = description,
                             onValueChange = { description = it },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                          //  keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                             label = { Text("Description *") },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -404,7 +402,7 @@ fun AddProductScreen(navController: NavController){
                         OutlinedTextField(
                             value = ingredients,
                             onValueChange = { ingredients = it },
-                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                           // keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                             label = { Text("Ingredients *") },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -465,6 +463,14 @@ fun AddProductScreen(navController: NavController){
                             modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = discount,
+                            onValueChange = { discount = it },
+                            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                            label = { Text("Discount *") },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
                         Row {
                             Text(
                                 text = "\u002A",
@@ -490,9 +496,20 @@ fun AddProductScreen(navController: NavController){
             item {
                 androidx.compose.material3.Button(
                     onClick = {
-
+                       viewModel.uploadFood(restaurantFood= restaurantFood, food = foodItems,  onSuccess = {
+                           name = ""
+                           discount=""
+                           price=""
+                           description=""
+                           ingredients=""
+                           type=""
+                           restaurantFood= null
+                           Toast.makeText(context,"Added Successfully",Toast.LENGTH_SHORT).show()
+                       }, onError = {
+                           Toast.makeText(context,"Error Adding",Toast.LENGTH_SHORT).show()
+                       })
                     },
-                    enabled = name.isNotEmpty() && description.isNotEmpty() && ingredients.isNotEmpty() && price.isNotEmpty() && type.isNotEmpty() && restaurantFood!=null,
+                    enabled = name.isNotEmpty() && description.isNotEmpty() && ingredients.isNotEmpty() && price.isNotEmpty() && discount!="" && type.isNotEmpty() && restaurantFood!=null,
                     colors = ButtonDefaults.buttonColors(Color(0xFFFF5722)),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
