@@ -1,7 +1,10 @@
+@file:Suppress("IMPLICIT_CAST_TO_ANY")
+
 package com.example.ecommerceapp.seller.reviews
 
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,6 +24,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -47,134 +51,155 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.common.models.Reviews
 import com.example.ecommerceapp.seller.addseller.AddSellerViewModel
+import kotlin.math.roundToInt
 
 @Composable
 fun CustomerFeedbackScreen() {
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        // Background Image
-        Image(
-            painter = painterResource(id = R.drawable.food3), // replace with your image resource
-            contentDescription = "Background Image",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxSize()
-                .alpha(0.7f)
-        )
-
-        // Overlay gradient for readability
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Color.Black.copy(alpha = 0.7f)
-                )
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                //.background()
-                .padding(WindowInsets.statusBars.asPaddingValues())
-        ) {
-            val viewModel: RatingsViewModel= hiltViewModel()
-            val reviews =  viewModel.ratings.collectAsState()
-            val viewModel1: AddSellerViewModel = hiltViewModel()
-            val uniqueSeller by viewModel1.uniqueSeller.collectAsState()
-Column (
-    modifier = Modifier
-        .background(Color.Green.copy(alpha = 0.06f), shape = RoundedCornerShape(26.dp))
-        .padding(8.dp)
-
-){
-
-
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        IconButton(onClick = { /* Handle back navigation */ }) {
-            Icon(
-                Icons.Default.ArrowBack,
-                contentDescription = "Back",
-                tint= Color.White
+    val viewModel: RatingsViewModel= hiltViewModel()
+    val reviews =  viewModel.ratings.collectAsState()
+    val viewModel1: AddSellerViewModel = hiltViewModel()
+    val uniqueSeller by viewModel1.uniqueSeller.collectAsState()
+    val averageRating = if(reviews.value.isNotEmpty()) { reviews.value.map { it.rating }.average().roundToInt() } else{ 0.0 }
+    val excellentRating = reviews.value.filter { it.rating ==5 }
+    val excellentAverage = if (excellentRating.isNotEmpty() && reviews.value.isNotEmpty()) { (excellentRating.size / (reviews.value.size*1.0))} else { 0.0}
+    val goodRating = reviews.value.filter { it.rating ==3 || it.rating==4 }
+    val goodAverage = if (goodRating.isNotEmpty() && reviews.value.isNotEmpty()) { (goodRating.size / (reviews.value.size*1.0))} else { 0.0}
+    val mediumRating = reviews.value.filter { it.rating ==2 }
+    val mediumAverage = if (mediumRating.isNotEmpty() && reviews.value.isNotEmpty()) { (mediumRating.size / (reviews.value.size*1.0))} else { 0.0}
+    val poorRating = reviews.value.filter { it.rating <=2}
+    val poorAverage = if (poorRating.isNotEmpty() && reviews.value.isNotEmpty()) { (poorRating.size / (reviews.value.size*1.0))} else { 0.0}
+    Log.d("excellentRating",excellentRating.size.toString())
+    Log.d("excellentAverage",excellentAverage.toString())
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Background Image
+            Image(
+                painter = painterResource(id = R.drawable.food3), // replace with your image resource
+                contentDescription = "Background Image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .alpha(0.7f)
             )
-        }
-
-        Text(
-            text = "Customer Feedback",
-            textAlign = TextAlign.Center,
-            fontSize = 45.sp,
-            color = Color.White,
-            fontFamily = FontFamily.Cursive,
-            style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(start = 8.dp)
-        )
-    }
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-    // Overall rating
-    Text(
-        text = "Overall Rating",
-        fontFamily = FontFamily.Cursive,
-        color = Color.White,
-        fontSize = 22.sp,
-        style = MaterialTheme.typography.body1,
-        modifier = Modifier.align(Alignment.CenterHorizontally)
-    )
-
-    Text(
-        text = "3.9",
-        fontFamily = FontFamily.Cursive,
-        color = Color.White,
-        style = MaterialTheme.typography.h3,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.align(Alignment.CenterHorizontally)
-    )
-
-    Row(
-        modifier = Modifier.align(Alignment.CenterHorizontally),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        repeat(4) {
-            Icon(
-                imageVector = Icons.Default.Star,
-                contentDescription = "Star",
-                tint = Color(0xFFFFC30B)
+            if(reviews.value.size==0){
+                Box(modifier=Modifier.fillMaxSize().background(Color.White.copy(alpha=0.6f)),
+                    contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator(
+                        color=Color.Black.copy(alpha=0.6f)
+                    )
+                }
+            }
+            // Overlay gradient for readability
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Color.Black.copy(alpha = 0.7f)
+                    )
             )
-        }
-        Icon(
-            imageVector = Icons.Default.Star,
-            contentDescription = "Star",
-            tint = Color.Gray.copy(alpha = 0.5f)
-        )
-    }
-Spacer(modifier = Modifier.height(4.dp))
-    Text(
-        text = "Based on 20 reviews",
-        fontFamily = FontFamily.Cursive,
-        color = Color.White,
-        fontSize = 22.sp,
-        style = MaterialTheme.typography.body2,
-        modifier = Modifier.align(Alignment.CenterHorizontally)
-    )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    //.background()
+                    .padding(WindowInsets.statusBars.asPaddingValues())
+            ) {
+
+                Column (
+                    modifier = Modifier
+                        .background(Color.Green.copy(alpha = 0.06f), shape = RoundedCornerShape(26.dp))
+                        .padding(8.dp)
+
+                ){
 
 
-    Spacer(modifier = Modifier.height(26.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        IconButton(onClick = { /* Handle back navigation */ }) {
+                            Icon(
+                                Icons.Default.ArrowBack,
+                                contentDescription = "Back",
+                                tint= Color.White
+                            )
+                        }
 
-    // Ratings breakdown
-    RatingBar(label = "Excellent", rating = 0.8f)
-    RatingBar(label = "Good", rating = 0.6f)
-    RatingBar(label = "Average", rating = 0.4f)
-    RatingBar(label = "Poor", rating = 0.2f)
-    Spacer(modifier = Modifier.height(56.dp))
-}
-            LazyColumn {
-                items(reviews.value) { Review ->
-                    ReviewItem(review = Review)
+                        Text(
+                            text = "Customer Feedback",
+                            textAlign = TextAlign.Center,
+                            fontSize = 45.sp,
+                            color = Color.White,
+                            fontFamily = FontFamily.Cursive,
+                            style = MaterialTheme.typography.h6,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Overall rating
+                    Text(
+                        text = "Overall Rating",
+                        fontFamily = FontFamily.Cursive,
+                        color = Color.White,
+                        fontSize = 22.sp,
+                        style = MaterialTheme.typography.body1,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+
+                    Text(
+                        text = averageRating.toInt().toString(),
+                        fontFamily = FontFamily.Cursive,
+                        color = Color.White,
+                        style = MaterialTheme.typography.h3,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+
+                    Row(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        repeat(averageRating.toInt()) {
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = "Star",
+                                tint = Color(0xFFFFC30B)
+                            )
+                        }
+                        repeat(5-averageRating.toInt()){
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = "Star",
+                                tint = Color.Gray.copy(alpha = 0.5f)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Based on ${reviews.value.size} reviews",
+                        fontFamily = FontFamily.Cursive,
+                        color = Color.White,
+                        fontSize = 22.sp,
+                        style = MaterialTheme.typography.body2,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+
+
+                    Spacer(modifier = Modifier.height(26.dp))
+
+                    // Ratings breakdown
+                    RatingBar(label = "Excellent", rating = excellentAverage.toFloat())
+                    RatingBar(label = "Good", rating = goodAverage.toFloat())
+                    RatingBar(label = "Average", rating = mediumAverage.toFloat())
+                    RatingBar(label = "Poor", rating = 0.2f)
+                    Spacer(modifier = Modifier.height(56.dp))
+                }
+                LazyColumn {
+                    items(reviews.value) { Review ->
+                        ReviewItem(review = Review)
+                    }
                 }
             }
         }
     }
-}
 
 @Composable
 fun RatingBar(label: String, rating: Float) {
@@ -204,7 +229,8 @@ fun RatingBar(label: String, rating: Float) {
 @Composable
 fun ReviewItem(review: Reviews) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(vertical = 8.dp)
             .background(Color.LightGray.copy(alpha = 0.15f), shape = RoundedCornerShape(26.dp)),
         verticalAlignment = Alignment.Top

@@ -26,6 +26,8 @@ class RatingsViewModel @Inject constructor() : ViewModel() {
     private val _ratings = MutableStateFlow<List<Reviews>>(emptyList())
     val ratings= _ratings.asStateFlow()
 
+
+
     init {
         fetchRatings()
     }
