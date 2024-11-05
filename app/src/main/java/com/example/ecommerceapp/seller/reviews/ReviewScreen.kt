@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.common.models.Reviews
-import com.example.ecommerceapp.seller.addseller.AddSellerViewModel
+import com.example.ecommerceapp.seller.onboarding.AddSellerViewModel
 import kotlin.math.roundToInt
 
 @Composable

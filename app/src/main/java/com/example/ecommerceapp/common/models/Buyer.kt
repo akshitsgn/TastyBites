@@ -1,6 +1,6 @@
 package com.example.ecommerceapp.common.models
 
-data class User(
+data class Buyer(
     val id: String?="",
     val name:String?="",
     val email:String?="",

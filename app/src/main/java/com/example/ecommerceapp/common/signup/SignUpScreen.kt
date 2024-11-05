@@ -62,6 +62,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommerceapp.R
+import com.example.ecommerceapp.common.models.Buyer
+import com.example.ecommerceapp.common.models.Seller
+import com.example.ecommerceapp.common.screens.AddUserViewModel
 import kotlinx.coroutines.delay
 
 
@@ -91,12 +94,18 @@ fun SignUpScreen(navController: NavController) {
     val roles = listOf("Buyer", "Seller")
 
     val viewModel: SignUpViewModel = hiltViewModel()
-
+    val viewModel1: AddUserViewModel = hiltViewModel()
     val imageResources = listOf(
         R.drawable.food,
         R.drawable.food1,
         R.drawable.food2,
         R.drawable.food3, // Replace with your image resources
+    )
+    val seller = Seller(
+        ownerName = name
+    )
+    val buyer = Buyer(
+        name= name
     )
 
     // State to hold the current image index
@@ -316,9 +325,16 @@ fun SignUpScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(12.dp))
             Button(
                 onClick = {
-
                     viewModel.signUp(email, password,
                         onSuccess = {
+                            if(selectedRole=="Seller"){
+                                viewModel1.addSeller(seller, onSuccess = {}, onError = {
+                                })
+                            }
+                            else{
+                                viewModel1.addBuyer(buyer, onSuccess ={}, onError = {
+                                })
+                            }
                             navController.navigate("AddProduct")
                             Toast.makeText(context, "SIGN UP SUCCESS", Toast.LENGTH_SHORT).show()
                         },

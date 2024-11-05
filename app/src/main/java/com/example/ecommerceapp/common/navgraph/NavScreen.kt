@@ -6,13 +6,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommerceapp.common.signin.SignInScreen
 import com.example.ecommerceapp.common.signup.SignUpScreen
+import com.example.ecommerceapp.customer.onboarding.OnboardingBuyersScreen
 import com.example.ecommerceapp.seller.addproduct.AddProductScreen
-import com.example.ecommerceapp.seller.addseller.AddSellerScreen
-import com.example.ecommerceapp.seller.addseller.OnboardingScreen
-import com.example.ecommerceapp.seller.addseller.OnboardingSellerScreen
-import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen1
-import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen2
-import com.example.ecommerceapp.seller.addseller.RestaurantDetailsScreen3
+import com.example.ecommerceapp.seller.onboarding.OnboardingScreen
+import com.example.ecommerceapp.seller.onboarding.OnboardingSellerScreen
+import com.example.ecommerceapp.seller.onboarding.RestaurantDetailsScreen1
+import com.example.ecommerceapp.seller.onboarding.RestaurantDetailsScreen2
+import com.example.ecommerceapp.seller.onboarding.RestaurantDetailsScreen3
 import com.example.ecommerceapp.seller.dashboard.SellerDashboardScreen
 
 @Composable
@@ -29,13 +29,13 @@ fun NavScreen(){
         composable("AddProduct"){
            AddProductScreen(navController)
         }
-        composable("AddSeller"){
-            AddSellerScreen()
-        }
         composable("onBoardingSeller"){
             OnboardingSellerScreen(navController)
         }
-        composable("OnBoardingStepper"){
+        composable("onBoardingStepperBuyer"){
+            OnboardingBuyersScreen(navController)
+        }
+        composable("OnBoardingStepperSeller"){
             OnboardingScreen(navController)
         }
         composable("RestaurantDetails1"){
