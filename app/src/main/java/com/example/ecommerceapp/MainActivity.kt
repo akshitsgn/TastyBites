@@ -27,10 +27,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             EcommerceAppTheme {
                 val navController = rememberNavController()
-                BuyersImageDetailScreen(navController)
+               // BuyersImageDetailScreen(navController)
                // OnBoardingBuyersStepperScreen(navController)
                // BuyersBasicDetailsScreen(navController)
-              //  NavScreen()
+                NavScreen()
               //  OnboardingBuyersScreen(navController = navController)
                // SignUpScreen(navController = navController)
                 // CustomerFeedbackScreen()

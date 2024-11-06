@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
     id("org.jetbrains.kotlin.kapt")
     id("com.google.dagger.hilt.android")
-
 }
 
 android {

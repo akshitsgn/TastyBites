@@ -1,5 +1,6 @@
-package com.example.ecommerceapp.seller.onboarding
+package com.example.ecommerceapp.customer.onboarding
 
+import com.example.ecommerceapp.seller.onboarding.AddSellerViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +36,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,7 +45,7 @@ import androidx.navigation.NavController
 import com.example.ecommerceapp.R
 
 @Composable
-fun OnboardingSellerScreen(navController: NavController){
+fun OnboardingBuyersScreen(navController: NavController){
     val viewModel: AddSellerViewModel = hiltViewModel()
     val uniqueSeller by viewModel.uniqueSeller.collectAsState()
     val currentStep = uniqueSeller?.currentStep?: 1
@@ -79,16 +81,17 @@ fun OnboardingSellerScreen(navController: NavController){
         ) {
             Spacer(modifier = Modifier.height(20.dp))
             Text(
-                text = "Make your restaurant delivery-ready in 24hrs!",
+                text ="Satisfy Your Cravings in Just a Tap!",
                 fontFamily = FontFamily.Cursive,
                 color = Color.White,
-                // textAlign = TextAlign.Center,
+                 textAlign = TextAlign.Start,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Fast-track your growth with Tasty-Bites Where flavor meets opportunity!",
+                text = "Discover Delicious Choices with Tasty-Bites\n" +
+                        "Where every bite brings happiness to your door!",
                 fontFamily= FontFamily.Cursive,
                 //textAlign = TextAlign.Center,
                 color = Color(0xFFFFA726),
@@ -108,7 +111,7 @@ fun OnboardingSellerScreen(navController: NavController){
                 Column(
                 ) {
                     Text(
-                        text = "For an easy form filling process, you can keep the following handy.",
+                        text = "For a smooth checkout process, you can keep the following handy",
                         color = Color.White,
                         fontFamily= FontFamily.Cursive,
                         fontSize = 18.sp
@@ -118,11 +121,10 @@ fun OnboardingSellerScreen(navController: NavController){
                         color = Color.White)
                     Spacer(modifier = Modifier.height(8.dp))
                     val items = listOf(
-                        "PAN Number",
-                        "GSTIN Number",
-                        "Bank Details ",
-                        "FSSAI Registration Number",
-                        "Your Restaurant Menu"
+                        "Delivery Address",
+                        "Contact Number",
+                        "Alternate Contacts"
+
                     )
 
                     items.forEach { item ->
@@ -147,7 +149,7 @@ fun OnboardingSellerScreen(navController: NavController){
 
             Button(
                 onClick = {
-                        navController.navigate("OnBoardingStepper")
+                        navController.navigate("onBoardingStepperBuyer")
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726).copy(alpha = 0.6f)),
                 modifier = Modifier
@@ -184,5 +186,5 @@ fun OnboardingSellerScreen(navController: NavController){
 @Preview(showBackground = true)
 @Composable
 fun check1(){
-   // OnboardingSellerScreen()
+    // OnboardingSellerScreen()
 }

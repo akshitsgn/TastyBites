@@ -327,15 +327,15 @@ fun SignUpScreen(navController: NavController) {
                 onClick = {
                     viewModel.signUp(email, password,
                         onSuccess = {
-                            if(selectedRole=="Seller"){
-                                viewModel1.addSeller(seller, onSuccess = {}, onError = {
-                                })
-                            }
-                            else{
-                                viewModel1.addBuyer(buyer, onSuccess ={}, onError = {
-                                })
-                            }
-                            navController.navigate("AddProduct")
+//                            if(selectedRole=="Seller"){
+//                                viewModel1.addSeller(seller, onSuccess = {}, onError = {
+//                                })
+//                            }
+//                            else{
+//                                viewModel1.addBuyer(buyer, onSuccess ={}, onError = {
+//                                })
+//                            }
+                            navController.navigate("onboardingBuyer")
                             Toast.makeText(context, "SIGN UP SUCCESS", Toast.LENGTH_SHORT).show()
                         },
                         onError = {

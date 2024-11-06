@@ -6,6 +6,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommerceapp.common.signin.SignInScreen
 import com.example.ecommerceapp.common.signup.SignUpScreen
+import com.example.ecommerceapp.customer.onboarding.BuyerTermsAndConditions
+import com.example.ecommerceapp.customer.onboarding.BuyersBasicDetailsScreen
+import com.example.ecommerceapp.customer.onboarding.BuyersImageDetailScreen
+import com.example.ecommerceapp.customer.onboarding.OnBoardingBuyersStepperScreen
 import com.example.ecommerceapp.customer.onboarding.OnboardingBuyersScreen
 import com.example.ecommerceapp.seller.addproduct.AddProductScreen
 import com.example.ecommerceapp.seller.onboarding.OnboardingScreen
@@ -33,7 +37,7 @@ fun NavScreen(){
             OnboardingSellerScreen(navController)
         }
         composable("onBoardingStepperBuyer"){
-            OnboardingBuyersScreen(navController)
+          OnBoardingBuyersStepperScreen(navController )
         }
         composable("OnBoardingStepperSeller"){
             OnboardingScreen(navController)
@@ -49,6 +53,18 @@ fun NavScreen(){
         }
         composable("sellerDashboard"){
             SellerDashboardScreen()
+        }
+        composable("basicBuyerDetails"){
+            BuyersBasicDetailsScreen(navController)
+        }
+        composable("buyerImageScreen"){
+            BuyersImageDetailScreen(navController)
+        }
+        composable("buyerTerms&Conditions"){
+            BuyerTermsAndConditions(navController)
+        }
+        composable("onboardingBuyer"){
+            OnboardingBuyersScreen(navController)
         }
 
     }
