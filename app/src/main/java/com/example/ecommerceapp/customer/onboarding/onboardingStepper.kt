@@ -61,16 +61,16 @@ fun OnBoardingBuyersStepperScreen(navController: NavController) {
                 .alpha(0.8f),
             contentScale = ContentScale.Crop
         )
-//        if(uniqueBuyer==null){
-//            Box(modifier = Modifier.fillMaxSize().
-//            background(color = Color.White.copy(alpha=0.8f))
-//            ){
-//                CircularProgressIndicator(modifier= Modifier.
-//                align(Alignment.Center),
-//                    color= Color.Black.copy(0.9f)
-//                )
-//            }
-//        }
+        if(uniqueBuyer==null){
+            Box(modifier = Modifier.fillMaxSize().
+            background(color = Color.White.copy(alpha=0.8f))
+            ){
+                CircularProgressIndicator(modifier= Modifier.
+                align(Alignment.Center),
+                    color= Color.Black.copy(0.9f)
+                )
+            }
+        }
 
 
         Box(modifier = Modifier
@@ -167,8 +167,8 @@ fun StepItem(
     isActive: Boolean,
     isCompleted: Boolean
 ) {
-    val viewModel: AddSellerViewModel = hiltViewModel()
-    val uniqueSeller by viewModel.uniqueSeller.collectAsState()
+    val viewModel: AddBuyerViewModel = hiltViewModel()
+    val uniqueSeller by viewModel.uniqueBuyer.collectAsState()
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -219,15 +219,12 @@ fun StepItem(
                         else if(currentStep==2){
                             navController.navigate("buyerImageScreen")
                         }
-                        else if(currentStep==3){
+                        else {
                             navController.navigate("buyerTerms&Conditions")
-                        }
-                        else{
-                            Log.d("4",stepNumber.toString())
                         }
 
                     },
-                    //enabled = uniqueSeller!=null,
+                    enabled = uniqueSeller!=null,
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726)),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.padding(top = 8.dp)

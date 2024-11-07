@@ -8,6 +8,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ecommerceapp.common.navgraph.NavScreen
 import com.example.ecommerceapp.common.signup.SignUpScreen
 import com.example.ecommerceapp.customer.Feedback.AddUserFeedback
+import com.example.ecommerceapp.customer.dashboard.BuyerDashboardScreen
+import com.example.ecommerceapp.customer.foodRestaurant.RestaurantList
 import com.example.ecommerceapp.customer.onboarding.BuyersBasicDetailsScreen
 import com.example.ecommerceapp.customer.onboarding.BuyersImageDetailScreen
 import com.example.ecommerceapp.customer.onboarding.OnBoardingBuyersStepperScreen
@@ -27,10 +29,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             EcommerceAppTheme {
                 val navController = rememberNavController()
+               // BuyerDashboardScreen()
+                RestaurantList()
                // BuyersImageDetailScreen(navController)
                // OnBoardingBuyersStepperScreen(navController)
                // BuyersBasicDetailsScreen(navController)
-                NavScreen()
+                // NavScreen()
               //  OnboardingBuyersScreen(navController = navController)
                // SignUpScreen(navController = navController)
                 // CustomerFeedbackScreen()

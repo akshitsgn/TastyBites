@@ -149,7 +149,12 @@ fun OnboardingBuyersScreen(navController: NavController){
 
             Button(
                 onClick = {
+                    if(currentStep>4) {
+                        navController.navigate("")
+                    }
+                    else{
                         navController.navigate("onBoardingStepperBuyer")
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726).copy(alpha = 0.6f)),
                 modifier = Modifier
