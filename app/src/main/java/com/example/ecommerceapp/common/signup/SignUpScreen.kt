@@ -335,7 +335,7 @@ fun SignUpScreen(navController: NavController) {
 //                                viewModel1.addBuyer(buyer, onSuccess ={}, onError = {
 //                                })
 //                            }
-                            navController.navigate("onboardingBuyer")
+                            navController.navigate("onBoardingSeller")
                             Toast.makeText(context, "SIGN UP SUCCESS", Toast.LENGTH_SHORT).show()
                         },
                         onError = {

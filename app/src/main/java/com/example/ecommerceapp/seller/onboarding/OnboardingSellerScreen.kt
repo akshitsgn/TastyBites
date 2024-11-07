@@ -147,7 +147,7 @@ fun OnboardingSellerScreen(navController: NavController){
 
             Button(
                 onClick = {
-                        navController.navigate("OnBoardingStepper")
+                        navController.navigate("OnBoardingStepperSeller")
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726).copy(alpha = 0.6f)),
                 modifier = Modifier

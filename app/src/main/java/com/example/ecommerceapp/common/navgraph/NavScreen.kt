@@ -12,12 +12,12 @@ import com.example.ecommerceapp.customer.onboarding.BuyersImageDetailScreen
 import com.example.ecommerceapp.customer.onboarding.OnBoardingBuyersStepperScreen
 import com.example.ecommerceapp.customer.onboarding.OnboardingBuyersScreen
 import com.example.ecommerceapp.seller.addproduct.AddProductScreen
-import com.example.ecommerceapp.seller.onboarding.OnboardingScreen
 import com.example.ecommerceapp.seller.onboarding.OnboardingSellerScreen
 import com.example.ecommerceapp.seller.onboarding.RestaurantDetailsScreen1
 import com.example.ecommerceapp.seller.onboarding.RestaurantDetailsScreen2
 import com.example.ecommerceapp.seller.onboarding.RestaurantDetailsScreen3
 import com.example.ecommerceapp.seller.dashboard.SellerDashboardScreen
+import com.example.ecommerceapp.seller.onboarding.OnboardingSellerStepperScreen
 
 @Composable
 fun NavScreen(){
@@ -40,7 +40,7 @@ fun NavScreen(){
           OnBoardingBuyersStepperScreen(navController )
         }
         composable("OnBoardingStepperSeller"){
-            OnboardingScreen(navController)
+            OnboardingSellerStepperScreen(navController)
         }
         composable("RestaurantDetails1"){
             RestaurantDetailsScreen1(navController)

@@ -45,7 +45,7 @@ import androidx.navigation.NavController
 import com.example.ecommerceapp.R
 
 @Composable
-fun OnboardingScreen(navController: NavController) {
+fun OnboardingSellerStepperScreen(navController: NavController) {
     val viewModel: AddSellerViewModel = hiltViewModel()
     val uniqueSeller by viewModel.uniqueSeller.collectAsState()
     Box(
