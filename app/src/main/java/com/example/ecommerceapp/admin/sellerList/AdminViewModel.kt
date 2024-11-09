@@ -48,7 +48,7 @@ class AdminViewModel @Inject constructor(): ViewModel(){
         })
     }
 
-    fun updateSellerBankDetails(
+    fun updateSellerVerifyStatusDetails(
         sellerId:String,
         verified:Boolean,
         onSuccess: () -> Unit,

@@ -68,7 +68,7 @@ fun SearchBar(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp),
-        placeholder = { Text("Search student") },
+        placeholder = { Text("Search Seller") },
         singleLine = true,
         shape = RoundedCornerShape(16.dp),
         leadingIcon = {
@@ -173,13 +173,15 @@ fun SellerListWithSearch(navController: NavController
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(seller.value){ seller->
-                StudentListItem(seller = seller,
-                    onItemClick = {
-                        isDialogOpenDetails = true
-                        sellerDetails = seller
-                    }
+            items(seller.value) { seller ->
+                if (!seller.verified) {
+                    StudentListItem(seller = seller,
+                        onItemClick = {
+                            isDialogOpenDetails = true
+                            sellerDetails = seller
+                        }
                     )
+                }
             }
         }
     }
@@ -270,10 +272,11 @@ fun SellerListWithSearch(navController: NavController
                         onItemClick(seller)
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Blue,
+                        containerColor = Color.Blue.copy(alpha = 0.5f),
                         contentColor = Color.White
                     ),
                     modifier = Modifier
+                        .fillMaxWidth()
                         .height(32.dp),
                     shape = RoundedCornerShape(16.dp)
                 ) {
