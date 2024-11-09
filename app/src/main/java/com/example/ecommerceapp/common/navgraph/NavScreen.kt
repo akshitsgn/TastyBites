@@ -1,9 +1,13 @@
 package com.example.ecommerceapp.common.navgraph
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.ecommerceapp.admin.sellerList.SellerDetailsScreen
+import com.example.ecommerceapp.admin.sellerList.SellerListWithSearch
 import com.example.ecommerceapp.common.signin.SignInScreen
 import com.example.ecommerceapp.common.signup.SignUpScreen
 import com.example.ecommerceapp.customer.onboarding.BuyerTermsAndConditions
@@ -23,7 +27,7 @@ import com.example.ecommerceapp.seller.onboarding.OnboardingSellerStepperScreen
 fun NavScreen(){
     val navController= rememberNavController()
 
-    NavHost(navController = navController, startDestination = "SignIn") {
+    NavHost(navController = navController, startDestination = "SellerList") {
         composable("Signup"){
             SignUpScreen(navController)
         }
@@ -65,6 +69,16 @@ fun NavScreen(){
         }
         composable("onboardingBuyer"){
             OnboardingBuyersScreen(navController)
+        }
+        composable("SellerList"){
+            SellerListWithSearch(navController)
+        }
+        composable(
+            route="adminSellerList/{SellerId}",
+            arguments = listOf(navArgument("SellerId"){type= NavType.StringType})
+            ){ backStackEntry->
+            val sellerId = backStackEntry.arguments?.getString("SellerId")
+            SellerDetailsScreen(sellerId?:"",navController)
         }
 
     }

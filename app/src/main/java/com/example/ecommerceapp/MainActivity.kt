@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
+import com.example.ecommerceapp.admin.sellerList.SellerListWithSearch
 import com.example.ecommerceapp.common.navgraph.NavScreen
 import com.example.ecommerceapp.common.signup.SignUpScreen
 import com.example.ecommerceapp.customer.Feedback.AddUserFeedback
@@ -30,7 +31,8 @@ class MainActivity : ComponentActivity() {
             EcommerceAppTheme {
                 val navController = rememberNavController()
                // BuyerDashboardScreen()
-                RestaurantList()
+               // RestaurantList()
+                NavScreen()
                // BuyersImageDetailScreen(navController)
                // OnBoardingBuyersStepperScreen(navController)
                // BuyersBasicDetailsScreen(navController)

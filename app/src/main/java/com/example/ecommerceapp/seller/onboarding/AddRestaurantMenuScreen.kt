@@ -184,7 +184,8 @@ fun RestaurantDetailsScreen3(navController: NavController) {
         bankAccountNumber = bankAccountNumber,
         currentStep = currentStep,
         restaurantMenu = restaurantMenu?.toString()?:"",
-        restaurantImage = restaurantImage?.toString()?:""
+        restaurantImage = restaurantImage?.toString()?:"",
+        verified = false
     )
 
     @Composable

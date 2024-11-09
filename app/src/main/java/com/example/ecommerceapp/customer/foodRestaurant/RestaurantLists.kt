@@ -41,7 +41,7 @@ fun RestaurantList(){
     val viewModel: RestaurantListViewModel= hiltViewModel()
     val food = viewModel.restaurants.collectAsState()
     LazyVerticalGrid(
-        columns = GridCells.Fixed(1),
+        columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.padding(0.dp)
