@@ -57,7 +57,7 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun SearchBar(
+fun ActiveSellerSearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -80,7 +80,7 @@ fun SearchBar(
     )
 }
 @Composable
-fun SellerListWithSearch(navController: NavController
+fun ActiveSellerListWithSearch(navController: NavController
 ) {
     val viewModel: AdminViewModel = hiltViewModel()
     val seller = viewModel.restaurants.collectAsState()
@@ -107,7 +107,7 @@ fun SellerListWithSearch(navController: NavController
             },
             text = {
                 Text(
-                    text = "Click to see the details of the Seller?",
+                    text = "Click to see the complaints of the Seller?",
                     fontSize = 18.sp,
                     modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
                 )
@@ -115,9 +115,9 @@ fun SellerListWithSearch(navController: NavController
             confirmButton = {
                 Button(
                     onClick = {
-                        navController.navigate("adminSellerList/${sellerDetails?.id}")
+
                         isDialogOpenDetails = false
-                         sellerDetails = null
+                        sellerDetails = null
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF1DA736),
@@ -129,7 +129,7 @@ fun SellerListWithSearch(navController: NavController
                         .fillMaxWidth(),
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    Text("Details")
+                    Text("Complaints")
                 }
             },
             containerColor = Color.White,
@@ -150,7 +150,7 @@ fun SellerListWithSearch(navController: NavController
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Non-Verified Seller List",
+                text = "Active Seller List",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -163,7 +163,7 @@ fun SellerListWithSearch(navController: NavController
             )
         }
 
-        SearchBar(
+        ActiveSellerSearchBar(
             query = query,
             onQueryChange = { query = it }
         )
@@ -174,8 +174,8 @@ fun SellerListWithSearch(navController: NavController
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(seller.value) { seller ->
-                if (!seller.verified) {
-                    StudentListItem(seller = seller,
+                if (seller.verified) {
+                    ActiveSellerListItem(seller = seller,
                         onItemClick = {
                             isDialogOpenDetails = true
                             sellerDetails = seller
@@ -186,11 +186,11 @@ fun SellerListWithSearch(navController: NavController
         }
     }
 }
-    @Composable
-    fun StudentListItem(
+@Composable
+fun ActiveSellerListItem(
     seller: Seller,
     onItemClick:(Seller)-> Unit,
-    ) {
+) {
 
     val greenColor = Color(0xFF029135)
     val redColor = Color(0xFFDC0404)
@@ -280,15 +280,10 @@ fun SellerListWithSearch(navController: NavController
                         .height(32.dp),
                     shape = RoundedCornerShape(16.dp)
                 ) {
-                    Text(text = "See Details")
+                    Text(text = "See Complaints")
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewStudentListWithSearch() {
-
-}

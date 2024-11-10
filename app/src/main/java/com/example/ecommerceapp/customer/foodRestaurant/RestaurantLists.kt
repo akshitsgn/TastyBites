@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -65,7 +66,7 @@ fun RestaurantCard(restaurant: Seller) {
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .size(220.dp)
                     .border(1.dp, Color.White, shape = RoundedCornerShape(16.dp))
                     .background(Color.Black.copy(alpha = 0.9f)),
                 contentAlignment = Alignment.TopEnd
