@@ -1,6 +1,5 @@
 package com.example.ecommerceapp.customer.foodRestaurant
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,20 +28,14 @@ import androidx.compose.material.Divider
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -62,10 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.ecommerceapp.R
-import com.example.ecommerceapp.common.models.FoodItems
 import com.example.ecommerceapp.common.models.Seller
-import com.example.ecommerceapp.seller.addedproducts.FoodCard
-import com.example.ecommerceapp.seller.addedproducts.SellerProductsViewModel
 
 @Composable
 fun RestaurantList(){
@@ -187,6 +177,7 @@ fun RestaurantListScreen() {
         // Foreground Content
         Column(
             modifier = Modifier
+
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.3f)) // Additional overlay
         ) {

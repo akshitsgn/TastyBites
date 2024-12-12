@@ -165,31 +165,31 @@ fun SignUpScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(19.dp))
 
-            OutlinedTextField(
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Person,
-                        contentDescription = "Toggle password visibility",
-                        tint = Color.DarkGray
-                    )
-                },
-                value = name,
-                onValueChange = { name = it },
-                label = { Text("Username",
-                    color = Color.White,
-                    fontFamily = FontFamily.Cursive
-                ) },
-                modifier = Modifier
-                    .fillMaxWidth()// Adjust the width as needed
-                    .background(Color.White.copy(alpha = 0.2f), shape = RoundedCornerShape(32.dp)),
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent, // Ensure the background color is applied from Modifier.background
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                shape = RoundedCornerShape(12.dp) // Ensure the shape is applied
-            )
-            Spacer(modifier = Modifier.height(12.dp))
+//            OutlinedTextField(
+//                leadingIcon = {
+//                    Icon(
+//                        imageVector = Icons.Filled.Person,
+//                        contentDescription = "Toggle password visibility",
+//                        tint = Color.DarkGray
+//                    )
+//                },
+//                value = name,
+//                onValueChange = { name = it },
+//                label = { Text("Username",
+//                    color = Color.White,
+//                    fontFamily = FontFamily.Cursive
+//                ) },
+//                modifier = Modifier
+//                    .fillMaxWidth()// Adjust the width as needed
+//                    .background(Color.White.copy(alpha = 0.2f), shape = RoundedCornerShape(32.dp)),
+//                colors = TextFieldDefaults.textFieldColors(
+//                    containerColor = Color.Transparent, // Ensure the background color is applied from Modifier.background
+//                    focusedIndicatorColor = Color.Transparent,
+//                    unfocusedIndicatorColor = Color.Transparent
+//                ),
+//                shape = RoundedCornerShape(12.dp) // Ensure the shape is applied
+//            )
+//            Spacer(modifier = Modifier.height(12.dp))
             OutlinedTextField(
                 leadingIcon = {
                     Icon(
@@ -266,61 +266,61 @@ fun SignUpScreen(navController: NavController) {
                 ),
                 shape = RoundedCornerShape(42.dp)// Ensure the shape is applied
             )
-            Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.AccountBox,
-                        contentDescription = "UserRole",
-                        tint = Color.DarkGray
-                    )
-                },
-                value = selectedRole, // Show the selected role
-                onValueChange = {
-                    selectedRole= it
-                }, // No manual editing allowed
-                label = { Text("Select Role",
-                    color = Color.White,
-                    fontFamily = FontFamily.Cursive
-                    ) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White.copy(0.2f), shape = RoundedCornerShape(42.dp))
-                    .clickable { expanded = !expanded }, // Open the dropdown when clicked
-                readOnly = true, // Make the field read-only
-                trailingIcon = {
-                    Icon(
-                        imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.ArrowDropDown,
-                        contentDescription = "Dropdown Arrow",
-                        Modifier.clickable { expanded = !expanded }
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                shape = RoundedCornerShape(12.dp)
-            )
-
-            // Dropdown menu content
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier
-                    .width(350.dp)
-                    .background(Color.White)
-            ) {
-                roles.forEach { role ->
-                    DropdownMenuItem(
-                        text = { Text(role) },
-                        onClick = {
-                            selectedRole = role // Set selected role
-                            expanded = false // Close dropdown
-                        }
-                    )
-                }
-            }
+//            Spacer(modifier = Modifier.height(12.dp))
+//            OutlinedTextField(
+//                leadingIcon = {
+//                    Icon(
+//                        imageVector = Icons.Filled.AccountBox,
+//                        contentDescription = "UserRole",
+//                        tint = Color.DarkGray
+//                    )
+//                },
+//                value = selectedRole, // Show the selected role
+//                onValueChange = {
+//                    selectedRole= it
+//                }, // No manual editing allowed
+//                label = { Text("Select Role",
+//                    color = Color.White,
+//                    fontFamily = FontFamily.Cursive
+//                    ) },
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .background(Color.White.copy(0.2f), shape = RoundedCornerShape(42.dp))
+//                    .clickable { expanded = !expanded }, // Open the dropdown when clicked
+//                readOnly = true, // Make the field read-only
+//                trailingIcon = {
+//                    Icon(
+//                        imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.ArrowDropDown,
+//                        contentDescription = "Dropdown Arrow",
+//                        Modifier.clickable { expanded = !expanded }
+//                    )
+//                },
+//                colors = TextFieldDefaults.textFieldColors(
+//                    containerColor = Color.Transparent,
+//                    focusedIndicatorColor = Color.Transparent,
+//                    unfocusedIndicatorColor = Color.Transparent
+//                ),
+//                shape = RoundedCornerShape(12.dp)
+//            )
+//
+//            // Dropdown menu content
+//            DropdownMenu(
+//                expanded = expanded,
+//                onDismissRequest = { expanded = false },
+//                modifier = Modifier
+//                    .width(350.dp)
+//                    .background(Color.White)
+//            ) {
+//                roles.forEach { role ->
+//                    DropdownMenuItem(
+//                        text = { Text(role) },
+//                        onClick = {
+//                            selectedRole = role // Set selected role
+//                            expanded = false // Close dropdown
+//                        }
+//                    )
+//                }
+//            }
 
             Spacer(modifier = Modifier.height(12.dp))
             Button(
@@ -346,7 +346,7 @@ fun SignUpScreen(navController: NavController) {
                 modifier = Modifier
                     .width(300.dp)// //
                     .padding(16.dp),
-                enabled = name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirm.isNotEmpty() && password == confirm && selectedRole.isNotEmpty(),
+                enabled =  email.isNotEmpty() && password.isNotEmpty() && confirm.isNotEmpty() && password == confirm ,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF0d98ba).copy(alpha= 0.65f), // Set button color
                     contentColor = Color.White // Set text color

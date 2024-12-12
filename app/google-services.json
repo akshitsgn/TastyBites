@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "377983702058",
-    "project_id": "tastybites-9e8af",
-    "storage_bucket": "tastybites-9e8af.appspot.com"
+    "project_number": "386541198869",
+    "project_id": "tasty-bites-e8070",
+    "storage_bucket": "tasty-bites-e8070.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:377983702058:android:4242ede6cd723f7ea95f53",
+        "mobilesdk_app_id": "1:386541198869:android:8a16be9a61cda3e061b81c",
         "android_client_info": {
           "package_name": "com.example.ecommerceapp"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC3VJI_By-Qd73ZgOjJ1FvEU0BFr4z8KTI"
+          "current_key": "AIzaSyAz_N8rQ03KLrOGzbfV4_BDDKK_JShAWjc"
         }
       ],
       "services": {
