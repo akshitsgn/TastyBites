@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.seller.onboarding
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -32,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -41,12 +47,35 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.ecommerceapp.R
+import com.example.ecommerceapp.common.models.Seller
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun OnboardingSellerScreen(navController: NavController){
     val viewModel: AddSellerViewModel = hiltViewModel()
     val uniqueSeller by viewModel.uniqueSeller.collectAsState()
+    val currentUser = FirebaseAuth.getInstance().currentUser
     val currentStep = uniqueSeller?.currentStep?: 1
+    val initialCurrentStep by remember { mutableIntStateOf(1) }
+    val context = LocalContext.current
+    val sellerId = currentUser?.uid
+    var initialUniqueSeller by remember { mutableStateOf<Seller?>(null) }
+    var ownername by remember { mutableStateOf("") }
+    var restaurantname by remember { mutableStateOf("") }
+    var emailaddress by remember { mutableStateOf("") }
+    var address by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+
+    val seller = Seller(
+        ownerName = ownername,
+        restaurantName = restaurantname,
+        address = address,
+        emailAddress = emailaddress,
+        description = description,
+        currentStep = currentStep
+    )
+
+
     val backgroundImage: Painter = painterResource(id = R.drawable.food1) // Replace with your background image
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -147,6 +176,15 @@ fun OnboardingSellerScreen(navController: NavController){
 
             Button(
                 onClick = {
+                    viewModel.addSeller(seller, onError = {
+                        Toast.makeText(
+                            context,
+                            "Error adding the user details",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }, onSuccess = { Toast.makeText(context, "Welcome Back", Toast.LENGTH_SHORT).show()
+
+                    })
                         navController.navigate("OnBoardingStepperSeller")
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726).copy(alpha = 0.6f)),

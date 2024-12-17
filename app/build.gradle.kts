@@ -55,13 +55,15 @@ android {
 dependencies {
 
     implementation ("io.coil-kt:coil-compose:2.3.0")
-
+    implementation ("com.google.android.gms:play-services-tasks:18.1.0")
     implementation ("com.google.accompanist:accompanist-pager:0.30.1")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.30.1")
 
     implementation ("androidx.room:room-runtime:2.6.1")
     implementation(libs.firebase.storage.ktx)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.play.services.auth)
+    implementation(libs.googleid)
     kapt ("androidx.room:room-compiler:2.6.1")
     implementation ("androidx.room:room-ktx:2.6.1")
     implementation("com.google.dagger:hilt-android:2.51")
