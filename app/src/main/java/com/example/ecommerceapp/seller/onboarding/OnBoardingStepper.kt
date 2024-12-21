@@ -60,6 +60,7 @@ fun OnboardingSellerStepperScreen(navController: NavController) {
              .alpha(0.8f),
          contentScale = ContentScale.Crop
          )
+
         if(uniqueSeller==null){
             Box(modifier = Modifier.fillMaxSize().
             background(color = Color.White.copy(alpha=0.8f))
@@ -70,7 +71,6 @@ fun OnboardingSellerStepperScreen(navController: NavController) {
                 )
             }
         }
-        
 
         Box(modifier = Modifier
             .fillMaxSize()

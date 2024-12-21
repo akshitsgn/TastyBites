@@ -24,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -49,6 +50,7 @@ import androidx.navigation.NavController
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.common.models.Seller
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.delay
 
 @Composable
 fun OnboardingSellerScreen(navController: NavController){
@@ -67,14 +69,16 @@ fun OnboardingSellerScreen(navController: NavController){
     var description by remember { mutableStateOf("") }
 
     val seller = Seller(
-        ownerName = ownername,
-        restaurantName = restaurantname,
-        address = address,
-        emailAddress = emailaddress,
-        description = description,
-        currentStep = currentStep
     )
 
+    var enabled by remember {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(Unit) {
+        delay(2500) // Delay for 2.5 seconds
+        enabled = true
+    }
 
     val backgroundImage: Painter = painterResource(id = R.drawable.food1) // Replace with your background image
     Box(
@@ -176,18 +180,23 @@ fun OnboardingSellerScreen(navController: NavController){
 
             Button(
                 onClick = {
-                    viewModel.addSeller(seller, onError = {
-                        Toast.makeText(
-                            context,
-                            "Error adding the user details",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }, onSuccess = { Toast.makeText(context, "Welcome Back", Toast.LENGTH_SHORT).show()
-
-                    })
+                    if(uniqueSeller==null) {
+                        viewModel.addSeller(seller,
+                            onError = {
+                                Toast.makeText(
+                                    context,
+                                    "Error adding the user details",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            },
+                            onSuccess = {
+                                Toast.makeText(context, "Welcome Back", Toast.LENGTH_SHORT).show()
+                            })
+                    }
                         navController.navigate("OnBoardingStepperSeller")
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726).copy(alpha = 0.6f)),
+                enabled= enabled,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
