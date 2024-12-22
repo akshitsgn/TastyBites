@@ -21,6 +21,7 @@ import com.example.ecommerceapp.seller.onboarding.RestaurantDetailsScreen1
 import com.example.ecommerceapp.seller.onboarding.RestaurantDetailsScreen2
 import com.example.ecommerceapp.seller.onboarding.RestaurantDetailsScreen3
 import com.example.ecommerceapp.seller.dashboard.SellerDashboardScreen
+import com.example.ecommerceapp.seller.onboarding.LegalContractScreen
 import com.example.ecommerceapp.seller.onboarding.OnboardingSellerStepperScreen
 
 @Composable
@@ -72,6 +73,9 @@ fun NavScreen(){
         }
         composable("SellerList"){
             SellerListWithSearch(navController)
+        }
+        composable("legalContract"){
+            LegalContractScreen(navController)
         }
         composable(
             route="adminSellerList/{SellerId}",

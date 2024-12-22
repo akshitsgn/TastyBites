@@ -18,6 +18,7 @@ import com.example.ecommerceapp.common.signin.SignInScreen
 import com.example.ecommerceapp.common.signup.SignUpScreen
 import com.example.ecommerceapp.customer.dashboard.BuyerDashboardScreen
 import com.example.ecommerceapp.customer.foodRestaurant.RestaurantListScreen
+import com.example.ecommerceapp.seller.onboarding.LegalContractScreen
 import com.example.ecommerceapp.ui.theme.EcommerceAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +30,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             EcommerceAppTheme {
+            val navController = rememberNavController()
                 NavScreen()
             }
         }

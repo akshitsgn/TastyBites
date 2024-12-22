@@ -21,5 +21,6 @@ data class Seller(
     val restaurantImage: String?="",
     val foodItems: List<FoodItems> = emptyList(),
     val topDishesImageUri: List<String> ? = emptyList(),
-    val restaurantMenu : String? =""
+    val restaurantMenu : String? ="",
+    val acceptTermsAndConditions: Boolean = false
 )

@@ -93,6 +93,28 @@ class AddSellerViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun updateAcceptTermsAndConditions(
+        sellerId: String,
+        acceptTerms: Boolean,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val updates = mapOf(
+            // Only update this field
+            "acceptTermsAndConditions" to acceptTerms,
+            "currentStep" to 5
+
+        )
+
+        firebaseDatabase.getReference("seller")
+            .child(sellerId)
+            .updateChildren(updates)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { exception ->
+                onError(exception.message ?: "Failed to update terms and conditions")
+            }
+    }
+
 
     fun updateSellerBankDetails(
         fSSAINumber: String,
