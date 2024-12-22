@@ -223,6 +223,7 @@ fun StepItem(
                            navController.navigate("RestaurantDetails3")
                       }
                         else{
+
                           Log.d("4",stepNumber.toString())
                       }
 

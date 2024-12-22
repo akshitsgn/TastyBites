@@ -71,6 +71,7 @@ import java.util.Locale
 @Composable
 fun RestaurantDetailsScreen3(navController: NavController) {
 
+    // changed the enabled setting and removed menu and image from seller obj
 
     // owner Bank details
     val currentUser = FirebaseAuth.getInstance().currentUser
@@ -183,8 +184,8 @@ fun RestaurantDetailsScreen3(navController: NavController) {
         ifscnumber = ifsc,
         bankAccountNumber = bankAccountNumber,
         currentStep = currentStep,
-        restaurantMenu = restaurantMenu?.toString()?:"",
-        restaurantImage = restaurantImage?.toString()?:"",
+       // restaurantMenu = restaurantMenu?.toString()?:"",
+       // restaurantImage = restaurantImage?.toString()?:"",
         verified = false
     )
 
@@ -410,7 +411,7 @@ fun RestaurantDetailsScreen3(navController: NavController) {
                             navController.popBackStack("OnBoardingStepper", false)
                         } )
                     },
-                    enabled = restaurantMenu!= null,
+                   // enabled = restaurantMenu!= null,
                     colors = ButtonDefaults.buttonColors(Color(0xFFFF5722)),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
