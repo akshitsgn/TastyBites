@@ -1,8 +1,15 @@
 package com.example.ecommerceapp.seller.onboarding
 
 import android.util.Log
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,9 +39,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,6 +59,7 @@ import com.example.ecommerceapp.R
 fun OnboardingSellerStepperScreen(navController: NavController) {
     val viewModel: AddSellerViewModel = hiltViewModel()
     val uniqueSeller by viewModel.uniqueSeller.collectAsState()
+    val verified = uniqueSeller?.verified?: false
     Box(
         modifier = Modifier
             .fillMaxSize(),
@@ -60,18 +72,6 @@ fun OnboardingSellerStepperScreen(navController: NavController) {
              .alpha(0.8f),
          contentScale = ContentScale.Crop
          )
-
-        if(uniqueSeller==null){
-            Box(modifier = Modifier.fillMaxSize().
-            background(color = Color.White.copy(alpha=0.8f))
-            ){
-                CircularProgressIndicator(modifier=Modifier.
-                align(Alignment.Center),
-                    color=Color.Black.copy(0.9f)
-                )
-            }
-        }
-
         Box(modifier = Modifier
             .fillMaxSize()
             .background(color = Color.Black.copy(0.7f)))
@@ -238,6 +238,8 @@ fun StepItem(
         }
     }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable

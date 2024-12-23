@@ -90,9 +90,6 @@ fun ActiveSellerListWithSearch(navController: NavController
 
     var sellerDetails by remember { mutableStateOf<Seller?>(null) }
 
-
-
-
     val context = LocalContext.current
     var query by remember { mutableStateOf("") }
 

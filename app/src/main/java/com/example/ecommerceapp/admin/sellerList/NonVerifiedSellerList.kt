@@ -79,6 +79,7 @@ fun SearchBar(
         }
     )
 }
+
 @Composable
 fun SellerListWithSearch(navController: NavController
 ) {
@@ -87,12 +88,7 @@ fun SellerListWithSearch(navController: NavController
     var isDialogOpenDetails by remember {
         mutableStateOf(false)
     }
-
     var sellerDetails by remember { mutableStateOf<Seller?>(null) }
-
-
-
-
     val context = LocalContext.current
     var query by remember { mutableStateOf("") }
 
@@ -174,7 +170,7 @@ fun SellerListWithSearch(navController: NavController
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(seller.value) { seller ->
-                if (!seller.verified) {
+                if (seller.acceptTermsAndConditions && !seller.verified) {
                     SellerListItem(seller = seller,
                         onItemClick = {
                             isDialogOpenDetails = true
