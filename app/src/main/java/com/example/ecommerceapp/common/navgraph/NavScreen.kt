@@ -28,7 +28,7 @@ import com.example.ecommerceapp.seller.onboarding.OnboardingSellerStepperScreen
 fun NavScreen(){
     val navController= rememberNavController()
 
-    NavHost(navController = navController, startDestination = "SignIn") {
+    NavHost(navController = navController, startDestination = "SellerList") {
         composable("Signup"){
             SignUpScreen(navController)
         }
