@@ -67,7 +67,8 @@ fun OnboardingSellerScreen(navController: NavController){
     var emailaddress by remember { mutableStateOf("") }
     var address by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-
+    var verified = uniqueSeller?.verified?:false
+    val status = uniqueSeller?.status?:false
     val seller = Seller(
     )
 
@@ -76,7 +77,7 @@ fun OnboardingSellerScreen(navController: NavController){
     }
 
     LaunchedEffect(Unit) {
-        delay(2500) // Delay for 2.5 seconds
+        delay(1000) // Delay for 2.5 seconds
         enabled = true
     }
 
@@ -180,20 +181,30 @@ fun OnboardingSellerScreen(navController: NavController){
 
             Button(
                 onClick = {
-                    if(uniqueSeller==null) {
-                        viewModel.addSeller(seller,
-                            onError = {
-                                Toast.makeText(
-                                    context,
-                                    "Error adding the user details",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            },
-                            onSuccess = {
-                                Toast.makeText(context, "Welcome Back", Toast.LENGTH_SHORT).show()
-                            })
+                    if(verified && status){
+                       navController.navigate("AddProduct")
                     }
-                        navController.navigate("OnBoardingStepperSeller")
+
+                    else if(uniqueSeller == null) {
+                            viewModel.addSeller(seller,
+                                onError = {
+                                    Toast.makeText(
+                                        context,
+                                        "Error adding the user details",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                },
+                                onSuccess = {
+                                    Toast.makeText(context, "Welcome Back", Toast.LENGTH_SHORT)
+                                        .show()
+                                })
+                        }
+                        else if(verified){
+                            navController.navigate("sellerVerified")
+                        }
+                        else{
+                            navController.navigate("OnBoardingStepperSeller")
+                        }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA726).copy(alpha = 0.6f)),
                 enabled= enabled,

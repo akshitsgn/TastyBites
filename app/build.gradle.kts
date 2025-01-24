@@ -54,10 +54,12 @@ android {
 
 
 dependencies {
-
+   // implementation ("com.cloudinary:cloudinary-android:1.30.0")
     implementation("com.airbnb.android:lottie-compose:6.0.0")
 
-    implementation ("com.cloudinary:kotlin-url-gen:1.7.0")
+    implementation("com.cloudinary:cloudinary-android:3.0.2")
+
+   // implementation ("io.supabase:supabase-kt:0.3.0")
 
     implementation(libs.firebase.storage.ktx)
     implementation(libs.androidx.runtime.livedata)

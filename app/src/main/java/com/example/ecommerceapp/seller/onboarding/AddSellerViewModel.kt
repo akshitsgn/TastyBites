@@ -172,4 +172,23 @@ class AddSellerViewModel @Inject constructor() : ViewModel() {
             }
         })
     }
+
+    fun updateSellerAnimationStatus(
+        sellerId:String,
+        status:Boolean,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        // Create a map with only the fields to update
+        val updates = mapOf(
+            "status" to status
+        )
+        if (sellerId != "") {
+            firebaseDatabase.getReference("seller")
+                .child(sellerId)
+                .updateChildren(updates)
+                .addOnSuccessListener { onSuccess() }
+                .addOnFailureListener { onError() }
+        }
+    }
 }

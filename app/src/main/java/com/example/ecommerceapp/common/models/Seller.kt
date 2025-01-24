@@ -3,6 +3,7 @@ package com.example.ecommerceapp.common.models
 data class Seller(
     val id : String? ="",
     val verified: Boolean= false,
+    val status:Boolean=false,
     val emailAddress : String?="",
     val currentStep : Int?=1,
     val specialOfferDescription: String?="",

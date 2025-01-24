@@ -27,7 +27,10 @@ class MainActivity : ComponentActivity() {
             EcommerceAppTheme {
             val navController = rememberNavController()
               NavScreen()
-               // FullScreenLottieAnimation()
+                //UploadImageScreen(sellerId = "n8OpGX1r6AMq52YyoB4dOELosoB2" , userType = "seller" )
+              // SellerListWithSearch(navController)
+
+                // FullScreenLottieAnimation()
             }
         }
     }

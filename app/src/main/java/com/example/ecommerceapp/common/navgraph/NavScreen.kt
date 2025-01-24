@@ -23,17 +23,21 @@ import com.example.ecommerceapp.seller.onboarding.RestaurantDetailsScreen3
 import com.example.ecommerceapp.seller.dashboard.SellerDashboardScreen
 import com.example.ecommerceapp.seller.onboarding.LegalContractScreen
 import com.example.ecommerceapp.seller.onboarding.OnboardingSellerStepperScreen
+import com.example.ecommerceapp.seller.onboarding.SellerVerified
 
 @Composable
 fun NavScreen(){
     val navController= rememberNavController()
 
-    NavHost(navController = navController, startDestination = "SellerList") {
+    NavHost(navController = navController, startDestination = "SignIn") {
         composable("Signup"){
             SignUpScreen(navController)
         }
         composable("SignIn"){
             SignInScreen(navController)
+        }
+        composable("sellerVerified"){
+            SellerVerified(navController)
         }
         composable("AddProduct"){
            AddProductScreen(navController)
