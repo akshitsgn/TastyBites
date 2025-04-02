@@ -1,6 +1,7 @@
 package com.example.tastybites.ui.theme
 
-import androidx.compose.material3.Typography
+import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -8,27 +9,79 @@ import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
 val Typography = Typography(
-    bodyLarge = TextStyle(
+    h1 = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontWeight = FontWeight.W800,
+        fontSize = 65.sp,
+        color = Color.White
     ),
-    labelSmall = TextStyle(
+    body2 = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        fontWeight = FontWeight.W600,
+        fontSize = 17.sp,
+        color = Color.White
+    ),
+    body1 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W600,
+        fontSize = 18.sp,
+        color = Color.White
+    ),
+    h3 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W600,
+        fontSize = 15.sp,
+        color = Color.White
+    ),
+    h2 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W700,
+        fontSize = 34.sp,
+        color = Color.White
+    ),
+    h4 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W400,
+        fontSize = 17.sp,
+        color = Color.White
+    ),
+    h5 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W600,
+        fontSize = 22.sp,
+        color = Color.White
+    ),
+    h6 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W700,
+        fontSize = 17.sp,
+        color = Color.White
+    ),
+)
+
+val detailTypography =  Typography(
+    h1 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W600,
+        fontSize = 28.sp,
+        color = Color.White
+    ),
+    h2 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W700,
+        fontSize = 22.sp,
+        color = Color.White
+    ),
+    body1 =  TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W400,
+        fontSize = 15.sp,
+        color = Color.White
+    ),
+    subtitle1 = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W400,
+        fontSize = 13.sp,
+        color = Color.White
     )
-    */
 )

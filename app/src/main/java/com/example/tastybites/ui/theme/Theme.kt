@@ -3,7 +3,11 @@ package com.example.tastybites.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.material.Shapes
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -51,7 +55,7 @@ fun TastyBitesTheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colors = colors,
         typography = Typography,
         content = content
     )

@@ -2,10 +2,13 @@ package com.example.tastybites.seller.onboarding
 
 
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.tastybites.common.models.Seller
+import com.example.tastybites.common.supabase.SupabaseStorageUtils
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -17,6 +20,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
@@ -54,40 +58,24 @@ class AddSellerViewModel @Inject constructor() : ViewModel() {
         })
     }
 
-
     fun uploadMenuImageAndAddSeller(
         restaurantMenu: Uri?,
         restaurantImage: Uri?,
         seller: Seller,
         onSuccess: () -> Unit,
-        onError: (String) -> Unit
+        onError: (String) -> Unit,
+        context: Context
     ) {
         if (restaurantMenu != null && restaurantImage!=null) {
-            val imageRef = firebaseStorage.child("imagesMenu/${UUID.randomUUID()}.jpg")
-            imageRef.putFile(restaurantMenu)
-                .addOnSuccessListener { taskSnapshot ->
-                    imageRef.downloadUrl.addOnSuccessListener { uri ->
-                        // Set the imageUrl with the Firebase Storage download URL
-                        val restaurantMenuImage = seller.copy(restaurantMenu = uri.toString())
-                        // Now add the student with the image URL to the database
-                        addSeller(restaurantMenuImage, onSuccess, onError)
-                    }
-                }
 
-            val restaurantImageRef =  firebaseStorage.child("imagesRestaurant/${UUID.randomUUID()}.jpg")
-            restaurantImageRef.putFile(restaurantImage)
-                .addOnSuccessListener { taskSnapshot ->
-                    imageRef.downloadUrl.addOnSuccessListener { uri ->
-                        // Set the imageUrl with the Firebase Storage download URL
-                        val restaurantsImage = seller.copy(restaurantImage = uri.toString())
-                        // Now add the student with the image URL to the database
-                        addSeller(restaurantsImage, onSuccess, onError)
-                    }
-                }
+            viewModelScope.launch {
+                val storageUtils = SupabaseStorageUtils(context)
+                val restaurantImage = storageUtils.uploadImage(restaurantImage)
+                val restaurantMenu = storageUtils.uploadImage(restaurantMenu)
+                val seller = seller.copy(restaurantMenu = restaurantMenu.toString(), restaurantImage = restaurantImage.toString())
 
-                .addOnFailureListener {
-                    onError(it.message ?: "Failed to upload image")
-                }
+                addSeller(seller, onSuccess, onError)
+            }
         } else {
             // No image was selected, proceed with adding the student without image URL
             addSeller(seller, onSuccess, onError)

@@ -4,14 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.tastybites.common.navgraph.NavScreen
+import com.example.tastybites.seller.add_product.AddProductScreen
+import com.example.tastybites.seller.added_products.AddedProductsScreen
 import com.example.tastybites.ui.theme.TastyBitesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +18,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TastyBitesTheme {
-               NavScreen()
+                val navController= rememberNavController()
+                NavScreen()
             }
         }
     }

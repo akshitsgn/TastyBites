@@ -32,6 +32,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -75,6 +76,7 @@ fun RestaurantDetailsScreen3(navController: NavController) {
     // changed the enabled setting and removed menu and image from seller obj
 
     // owner Bank details
+    var isLoading by remember { mutableStateOf(false) }
     val currentUser = FirebaseAuth.getInstance().currentUser
     val viewModel: AddSellerViewModel = hiltViewModel()
     val uniqueSeller by viewModel.uniqueSeller.collectAsState()
@@ -405,24 +407,38 @@ fun RestaurantDetailsScreen3(navController: NavController) {
             item {
                 Button(
                     onClick = {
+                        isLoading=true
                         viewModel.uploadMenuImageAndAddSeller( restaurantMenu,restaurantImage, seller , onError = {
+                            isLoading=false
                             Toast.makeText(context,"Error Occurred", Toast.LENGTH_SHORT).show()
                         } , onSuccess = {
+                            isLoading=false
                             Toast.makeText(context,"Added successfully", Toast.LENGTH_SHORT).show()
                             navController.popBackStack("OnBoardingStepper", false)
-                        } )
+                        } ,
+                            context = context)
                     },
-                    // enabled = restaurantMenu!= null,
+                     enabled = restaurantMenu!= null && restaurantImage!=null,
                     colors = ButtonDefaults.buttonColors(Color(0xFFFF5722)),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 8.dp)
                 ) {
-                    Text(
-                        text = "Add Menu",
-                        color = Color.White
-                    )
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            color = Color.White, // Fancy color for the indicator
+                            strokeWidth = 3.dp, // Making it a bit thicker for a fancier look
+                            modifier = Modifier
+                                .align(Alignment.Bottom) // Position at the bottom center
+                                //.padding(bottom = 10.dp) // Space from the bottom edge
+                        )
+                    } else {
+                        Text(
+                            text = "Add Menu",
+                            color = Color.White
+                        )
+                    }
                 }
             }
 

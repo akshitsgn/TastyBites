@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,6 +37,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -65,6 +67,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.tastybites.R
 import com.example.tastybites.common.models.FoodItems
+import com.example.tastybites.common.screens.BottomBar
 import com.google.firebase.auth.FirebaseAuth
 import java.io.File
 import java.text.SimpleDateFormat
@@ -169,8 +172,14 @@ fun AddProductScreen(navController: NavController){
             text = { Text(text = "Would you like to pick an image from the gallery or use the camera") })
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Scaffold(
+        bottomBar = {
+            BottomBar(navController)
+        }
+    ) { paddingValues ->
 
+    Column(modifier = Modifier.fillMaxSize()
+        .padding(paddingValues)) {
         if (chooserDialogFood.value) {
             ContentSelectionDialog(onCameraSelected = {
                 chooserDialogFood.value = false
@@ -199,16 +208,21 @@ fun AddProductScreen(navController: NavController){
 
             Text(
                 text = "Add Product",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(top = 8.dp)
+                fontSize = 38.sp,  // Slightly larger for a bold heading
+                fontWeight = FontWeight.ExtraBold,
+                fontFamily = FontFamily.Cursive,// Stronger emphasis
+                color = Color.Black,  // Ensuring good contrast
+                //textAlign = TextAlign.Center,  // Centering the text
+                modifier = Modifier
+                    .fillMaxWidth()  // Makes sure it spans the width for better alignment
+                    //.padding(top = 16.dp, bottom = 8.dp)  // Adds spacing around the text
             )
         }
 
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(8.dp)
                 .background(Color(0xFFF6F6F6)) // Light gray background
         ) {
 
@@ -495,9 +509,9 @@ fun AddProductScreen(navController: NavController){
                             type=""
                             restaurantFood= null
                             Toast.makeText(context,"Added Successfully",Toast.LENGTH_SHORT).show()
-                        }, onError = {
+                        }, context=context,onError = {
                             Toast.makeText(context,"Error Adding",Toast.LENGTH_SHORT).show()
-                        })
+                        },)
                     },
                     enabled = name.isNotEmpty() && description.isNotEmpty() && ingredients.isNotEmpty() && price.isNotEmpty() && discount!="" && type.isNotEmpty() && restaurantFood!=null,
                     colors = ButtonDefaults.buttonColors(Color(0xFFFF5722)),
@@ -525,14 +539,10 @@ fun AddProductScreen(navController: NavController){
 
             }
         }
+
     }
+        }
+
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun Check(){
-    val navController = rememberNavController()
-    AddProductScreen(navController)
-}
 

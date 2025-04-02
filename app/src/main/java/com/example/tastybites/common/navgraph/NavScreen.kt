@@ -17,14 +17,17 @@ import com.example.tastybites.customer.onboarding.BuyersImageDetailScreen
 import com.example.tastybites.customer.onboarding.OnBoardingBuyersStepperScreen
 import com.example.tastybites.customer.onboarding.OnboardingBuyersScreen
 import com.example.tastybites.seller.add_product.AddProductScreen
+import com.example.tastybites.seller.added_products.AddProductDetailScreen
+import com.example.tastybites.seller.added_products.AddedProductsScreen
 import com.example.tastybites.seller.dashboard.SellerDashboardScreen
+import com.example.tastybites.seller.onboarding.EmailScreen
 import com.example.tastybites.seller.onboarding.LegalContractScreen
 import com.example.tastybites.seller.onboarding.OnboardingSellerScreen
 import com.example.tastybites.seller.onboarding.OnboardingSellerStepperScreen
 import com.example.tastybites.seller.onboarding.RestaurantDetailsScreen1
 import com.example.tastybites.seller.onboarding.RestaurantDetailsScreen2
 import com.example.tastybites.seller.onboarding.RestaurantDetailsScreen3
-import com.example.tastybites.seller.onboarding.SellerVerified
+//import com.example.tastybites.seller.onboarding.SellerVerified
 
 
 @Composable
@@ -38,8 +41,8 @@ fun NavScreen(){
         composable("SignIn"){
             SignInScreen(navController)
         }
-        composable("sellerVerified"){
-            SellerVerified(navController)
+        composable("email"){
+            EmailScreen(navController)
         }
         composable("AddProduct"){
             AddProductScreen(navController)
@@ -82,6 +85,16 @@ fun NavScreen(){
         }
         composable("legalContract"){
             LegalContractScreen(navController)
+        }
+        composable("AddedProduct"){
+            AddedProductsScreen(navController)
+        }
+        composable(
+            route = "productdetailscreen/{productId}",
+            arguments = listOf(navArgument("productId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString("productId")
+            AddProductDetailScreen(productId ?: "",navController)
         }
         composable(
             route="adminSellerList/{SellerId}",

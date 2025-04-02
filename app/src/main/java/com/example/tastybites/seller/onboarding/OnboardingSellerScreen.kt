@@ -78,7 +78,7 @@ fun OnboardingSellerScreen(navController: NavController){
     }
 
     LaunchedEffect(Unit) {
-        delay(1000) // Delay for 2.5 seconds
+        delay(3000) // Delay for 2.5 seconds
         enabled = true
     }
 

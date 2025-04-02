@@ -17,7 +17,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.tastybites.R
-import com.example.tastybites.seller.added_products.FoodItemsSection
 
 
 @Composable
@@ -70,7 +69,7 @@ fun BuyerDashboardScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Food Items Section
-            FoodItemsSection()
+            //FoodItemsSection()
         }
     }
 }

@@ -44,9 +44,9 @@ android {
 
 dependencies {
 
-
+    implementation ("androidx.compose.material:material:1.5.0")
     implementation("io.github.jan-tennert.supabase:storage-kt:1.4.7")
-    implementation("io.github.jan-tennert.supabase:compose-storage:1.4.7")
+    implementation("io.github.jan-tennert.supabase:compose-auth:1.4.7")
     val ktor_version = "2.3.13"
     implementation("io.ktor:ktor-client-android:$ktor_version")
     implementation("io.ktor:ktor-client-core:$ktor_version")

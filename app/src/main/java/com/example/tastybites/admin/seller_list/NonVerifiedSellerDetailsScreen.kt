@@ -57,7 +57,6 @@ fun SellerDetailsScreen(SellerId:String,navController: NavController){
     Column(
         modifier = Modifier
             .fillMaxSize()
-        // .verticalScroll(rememberScrollState())
     ){
         AdminSellerScreen(
             id = seller?.id.toString(),
