@@ -1,52 +1,44 @@
-🍽️ Tasty Bites – Food Delivery App
-🔍 Project Overview
-Tasty Bites is a full-featured, scalable food delivery app built with Jetpack Compose and Firebase, designed with a multi-user role system to support Admins, Sellers, and Customers with separate permissions and workflows. The app emphasizes platform integrity, seamless user experience, and real-time order management.
+# 🍽️ Tasty Bites – Food Delivery App
 
-📱 App Screenshots
+## 🔍 Project Overview  
+**Tasty Bites** is a production-ready, scalable food delivery app built using **Jetpack Compose** and **Firebase**. It features a robust **multi-user role system**, supporting distinct workflows for **Admins**, **Sellers**, and **Customers**. The app ensures platform security, seamless operations, and a highly interactive user experience with real-time order processing and role-based dashboards.
+
+## 📱 App Screenshots
+
 <p align="center">
-  <img src="https://github.com/akshitsgn/TastyBites/blob/main/ea919629-caae-441a-8f5a-28a95926322a.jpg" alt="img1" width="150"/>
-  <img src="https://github.com/akshitsgn/TastyBites/blob/main/8e165057-92ba-43bf-82cf-cc06ca25398f.jpg" alt="img2" width="150"/>
-  <img src="https://github.com/akshitsgn/TastyBites/blob/main/042ead9e-ddb5-4f30-a12f-4d960e5a4691.jpg" alt="img3" width="150"/>
-   <img src="https://github.com/akshitsgn/TastyBites/blob/main/2980695b-e58f-4191-b48d-bf23afa95ea8.jpg" alt="img3" width="150"/>
+  <img src="https://github.com/akshitsgn/TastyBites/blob/main/ea919629-caae-441a-8f5a-28a95926322a.jpg" alt="Admin View" width="150"/>
+  <img src="https://github.com/akshitsgn/TastyBites/blob/main/8e165057-92ba-43bf-82cf-cc06ca25398f.jpg" alt="Seller Dashboard" width="150"/>
+  <img src="https://github.com/akshitsgn/TastyBites/blob/main/042ead9e-ddb5-4f30-a12f-4d960e5a4691.jpg" alt="Customer Browsing" width="150"/>
+  <img src="https://github.com/akshitsgn/TastyBites/blob/main/2980695b-e58f-4191-b48d-bf23afa95ea8.jpg" alt="Order Screen" width="150"/>
 </p>
 
-👥 Multi-User Role System
-Implemented role-based access with customized dashboards and functionalities for:
+## ✨ Key Features
 
-🛡️ Admin Features
-✅ Document Verification: Review and approve seller-provided documents before granting access.
-🗂️ Complaint Management: Handle customer complaints, take actions like warnings or account suspension.
-🔒 Platform Oversight: Monitor system-wide activity for a secure and reliable marketplace.
+- 👥 **Multi-User Role System**: Separate access and interfaces for Admin, Seller, and Customer users.
+- 🛡️ **Admin Panel**: Document verification, complaint resolution, and seller account moderation.
+- 🏪 **Seller Dashboard**: Manage restaurant profile, product listings, and track orders in real time.
+- 🛍️ **Customer Experience**: Browse restaurants, place orders, rate sellers, and track deliveries.
+- 📦 **Order Management System**: Real-time updates and status tracking for both seller and customer.
+- ⭐ **Rating & Feedback System**: Build seller reputation and enhance transparency.
+- 🆘 **Complaint Resolution Workflow**: Ensures timely resolution of user issues by the admin.
+- 🏗️ **Clean & Scalable Architecture**: Built using **MVVM**, **Jetpack Compose**, and **Firebase**.
 
-🍽️ Seller Features
-🏪 Restaurant Management: Create, edit, and manage restaurant listings and food items.
-📦 Order Management: Accept or reject customer orders with real-time status tracking.
-💬 Customer Feedback: View and respond to ratings and comments from customers.
+## 📚 Technologies Used
 
-🛍️ Customer Features
-🔎 Product Discovery: Browse restaurants and dishes with a user-friendly interface.
-🛒 Ordering System: Place and track orders in real time.
-⭐ Rate & Review: Provide feedback on seller performance and product quality.
+- **Jetpack Compose** – for modern declarative UI
+- **Firebase** – Authentication, Realtime Database, Firestore, and Storage
+- **Kotlin** – core programming language
+- **Hilt** – for dependency injection
+- **MVVM Architecture** – for clean code separation and testability
 
-⚙️ Core Functionalities
-🌟 Rating & Review System: Builds seller reputation and guides customer decisions.
-🆘 Complaint Resolution Workflow: Ensures all customer issues are logged and addressed by admins.
-🏗️ Scalable Architecture: Follows Clean Architecture principles using MVVM, Hilt, and Jetpack Compose for robust and maintainable code.
+## 💼 Use Cases
 
-📚 Technologies Used
-Jetpack Compose – for modern, declarative UI
-Firebase (Auth, Firestore, Storage, Realtime DB) – for backend, authentication, and data handling
-Kotlin – primary programming language
-MVVM Architecture – for clear separation of concerns
-Hilt – for dependency injection
+- 👨‍🍳 **Sellers**: Manage restaurants, menus, and fulfill orders efficiently.
+- 👨‍💼 **Admins**: Maintain trust and monitor platform activity.
+- 👨‍👩‍👧‍👦 **Customers**: Discover food options, order meals, and share feedback.
 
-💼 Use Cases
-👨‍🍳 Sellers grow their food business online with real-time orders and feedback
-👩‍💼 Admins ensure trust and quality by regulating content and users
-👨‍👩‍👧‍👦 Customers enjoy smooth discovery and delivery of their favorite dishes
+## 🛠️ How to Run
 
-🛠️ How to Run
-Clone the repository:
-
---bash
+1. Clone the repository:
+```bash
 git clone https://github.com/akshitsgn/TastyBites
